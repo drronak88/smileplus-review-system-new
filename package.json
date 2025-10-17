@@ -1,0 +1,12 @@
+{
+  "name": "smileplus-review-system",
+  "version": "1.0.0",
+  "description": "Smile Plus Dental Review System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {},
+  "author": "Dr Ronak Dewani",
+  "license": "ISC"
+}
