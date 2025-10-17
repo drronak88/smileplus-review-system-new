@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Leave a Review — Smile Plus Dental Clinic</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#f6fafc}
+    .card{background:white;padding:20px;border-radius:12px;box-shadow:0 6px 24px rgba(20,30,40,0.08);max-width:420px;width:92%}
+    button{width:100%;padding:12px;border-radius:10px;border:0;font-size:16px;cursor:pointer}
+    .primary{background:#0b76ef;color:white;margin-top:8px}
+    .muted{background:#eef3fb;color:#0b76ef;margin-top:8px}
+    .note{font-size:13px;color:#556;margin-top:8px}
+    .review{margin-top:12px;padding:10px;border-radius:8px;background:#f4f7fb;font-size:15px}
+    .lang-select{display:flex;justify-content:space-between;margin-bottom:12px}
+    .lang-btn{flex:1;margin:0 4px;padding:10px;border-radius:8px;border:1px solid #0b76ef;background:#eef3fb;color:#0b76ef;font-weight:500;cursor:pointer}
+    .lang-btn.active{background:#0b76ef;color:white}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Thank you for visiting Smile Plus Dental Clinic 😁</h2>
+    <p class="note">Please select your preferred language and generate 5 polite reviews (each 40–50 words). You can edit or copy your favorite before posting.</p>
+
+    <div class="lang-select">
+      <button id="btnEn" class="lang-btn active" data-lang="English">English</button>
+      <button id="btnHi" class="lang-btn" data-lang="Hindi">हिंदी</button>
+      <button id="btnGu" class="lang-btn" data-lang="Gujarati">ગુજરાતી</button>
+    </div>
+
+    <button id="generateBtn" class="primary">Generate Reviews</button>
+
+    <div id="outputContainer"></div>
+    <p class="note">We never store personal or medical information. This optional tool helps you write a review easily and authentically.</p>
+  </div>
+
+  <script>
+    const gen = document.getElementById('generateBtn');
+    const container = document.getElementById('outputContainer');
+    const langBtns = document.querySelectorAll('.lang-btn');
+    let selectedLang = 'English';
+
+    langBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        langBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedLang = btn.getAttribute('data-lang');
+      });
+    });
+
+    gen.addEventListener('click', async () => {
+      gen.disabled = true; gen.innerText = 'Generating...';
+      container.innerHTML = '';
+      try {
+        const resp = await fetch('/api/generate-multiple-reviews', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ language: selectedLang })
+        });
+        const data = await resp.json();
+        if (data.reviews && data.reviews.length) {
+          data.reviews.forEach(text => {
+            const div = document.createElement('div');
+            div.className = 'review';
+            div.innerText = text;
+            const btn = document.createElement('button');
+            btn.className = 'muted';
+            btn.innerText = 'Copy';
+            btn.addEventListener('click', async () => {
+              await navigator.clipboard.writeText(text);
+              btn.innerText = 'Copied!';
+              setTimeout(()=>btn.innerText='Copy',1500);
+            });
+            container.appendChild(div);
+            container.appendChild(btn);
+          });
+        } else {
+          container.innerHTML = '<p class="note">No reviews generated. Please try again later.</p>';
+        }
+      } catch (e) {
+        container.innerHTML = '<p class="note">Unable to generate reviews right now.</p>';
+      } finally {
+        gen.disabled = false; gen.innerText = 'Generate Reviews';
+      }
+    });
+  </script>
+</body>
+</html>
