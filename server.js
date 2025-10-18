@@ -1,10 +1,17 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
-const fetch = require('node-fetch');
+
+// ✅ Fix for node-fetch when using CommonJS
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
 const path = require('path');
 require('dotenv').config();
 
 const app = express();
+
+// ✅ Tell Express to trust Render's proxy (fixes rate-limit warning)
+app.set('trust proxy', 1);
+
 app.use(express.json());
 
 // ✅ Serve static files from the "public" folder
