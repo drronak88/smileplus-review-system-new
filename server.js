@@ -1,20 +1,16 @@
+// ✅ Import dependencies
 const express = require('express');
 const rateLimit = require('express-rate-limit');
-
-// ✅ Fix for node-fetch when using CommonJS
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-
 const path = require('path');
 require('dotenv').config();
 
+// ✅ Initialize app
 const app = express();
-
-// ✅ Tell Express to trust Render's proxy (fixes rate-limit warning)
-app.set('trust proxy', 1);
-
 app.use(express.json());
+app.set('trust proxy', 1); // Fixes rate-limit warning on Render
 
-// ✅ Serve static files from the "public" folder
+// ✅ Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ✅ Default route — open qr-landing.html
@@ -22,17 +18,18 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'qr-landing.html'));
 });
 
-// Limit requests to avoid spam
+// ✅ Rate limit setup
 const limiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   max: 10,
-  message: 'Too many requests, try later.'
+  message: 'Too many requests, please try again later.'
 });
 app.use('/api/', limiter);
 
-// Handle AI review generation
+// ✅ Review generation endpoint with detailed logging
 app.post('/api/generate-multiple-reviews', async (req, res) => {
   const { language = 'English' } = req.body;
+  console.log('🌐 Incoming request for language:', language);
 
   try {
     const promptLanguage =
@@ -59,6 +56,7 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
       temperature: 0.8
     };
 
+    console.log('🧠 Sending request to OpenAI...');
     const openaiResp = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -68,17 +66,21 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
       body: JSON.stringify(promptPayload)
     });
 
+    console.log('✅ Response status:', openaiResp.status);
     const j = await openaiResp.json();
+    console.log('🔍 OpenAI response body:', j);
+
     const raw = j?.choices?.[0]?.message?.content || '';
     const reviews = raw.split(/\n\n+/).filter(r => r.trim().length > 20);
 
+    console.log('✨ Extracted reviews:', reviews.length);
     res.json({ reviews });
   } catch (err) {
-    console.error(err);
+    console.error('❌ ERROR in generation:', err);
     res.status(500).json({ error: 'generate_failed' });
   }
 });
 
-app.listen(3000, () =>
-  console.log('✅ Server is running on http://localhost:3000')
-);
+// ✅ Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`✅ Server is running on http://localhost:${PORT}`));
