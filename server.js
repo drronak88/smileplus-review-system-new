@@ -36,11 +36,12 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
   try {
     // 🔤 Step 1 — Set prompt language
     const promptLanguage =
-      language === 'Hindi'
-        ? 'in Hindi (हिंदी में लिखें)'
-        : language === 'Gujarati'
-        ? 'in Gujarati (ગુજરાતીમાં લખો)'
-        : 'in English';
+  language === 'Hindi'
+    ? 'in natural, polite Hindi (हिंदी में, सरल और स्वाभाविक अंदाज़ में लिखें जैसे मरीज असल में बोलते हैं)'
+    : language === 'Gujarati'
+    ? 'in natural, polite Gujarati (ગુજરાતીમાં, સહજ અને સ્વાભાવિક ભાષામાં લખો જેમ દર્દી સાચા અનુભવ શેર કરે છે)'
+    : 'in English';
+
 
     // 🌍 Step 2 — Multilingual SEO keyword set
     let seoKeywords = `
@@ -58,7 +59,7 @@ const toneMap = {
     },
     'Root Canal Treatment': {
       tone: 'Use a relieved and grateful tone, mentioning painless experience and comfort.',
-      emoji: '😌'
+      emoji: '😊'
     },
     'Braces and Aligners': {
       tone: 'Use a cheerful, motivated tone about improved smile alignment and self-confidence.',
@@ -87,7 +88,7 @@ const toneMap = {
   },
   Hindi: {
     'Dental Implants': { tone: 'एक आत्मविश्वासपूर्ण और खुशहाल लहजा रखें जो नए मुस्कान और आराम को दर्शाए।', emoji: '😄' },
-    'Root Canal Treatment': { tone: 'एक राहत भरा और आभारी लहजा रखें, जिसमें बिना दर्द के अनुभव और आराम का उल्लेख हो।', emoji: '😌' },
+    'Root Canal Treatment': { tone: 'एक राहत भरा और आभारी लहजा रखें, जिसमें बिना दर्द के अनुभव और आराम का उल्लेख हो।', emoji: '😊' },
     'Braces and Aligners': { tone: 'एक उत्साहित लहजा रखें, जिसमें बेहतर मुस्कान और आत्मविश्वास की भावना झलके।', emoji: '😁' },
     'Smile Makeover': { tone: 'एक भावनात्मक और खुश लहजा रखें, जिसमें नई मुस्कान और आत्मविश्वास की खुशी झलके।', emoji: '✨' },
     'General Dentistry': { tone: 'एक शांत और संतुष्ट लहजा रखें, जिसमें नियमित जांच और देखभाल का जिक्र हो।', emoji: '😊' },
@@ -135,6 +136,7 @@ if (toneMap[language]?.[treatment]) {
         {
           role: 'user',
           content: `Write five unique, SEO-friendly 80–100 word reviews for Smile Plus Dental Clinic ${promptLanguage}.
+Make sure the tone sounds natural, like how real patients in Anand would speak — not overly formal or machine-like.
 Each review should:
 - Specifically mention the treatment: "${treatment}" as if the patient personally received it.
 - Sound like a real patient sharing a positive experience related to that treatment.
