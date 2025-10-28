@@ -1,0 +1,253 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smile Plus Dental Clinic and Implant Center</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background: url('dental-background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      min-height: 100vh;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    img.logo {
+      display: block;
+      margin: 0 auto 25px auto;
+      max-width: 320px;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+    }
+
+    .clinic-name {
+      text-align: center;
+      background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+      display: inline-block;
+      padding: 14px 28px;
+      border-radius: 12px;
+      box-shadow: 
+        0 0 10px rgba(38, 166, 154, 0.7),
+        0 0 20px rgba(0, 188, 212, 0.5),
+        inset 0 0 15px rgba(255, 255, 255, 0.4);
+      margin: 0 auto 25px auto;
+      animation: glowPop 1.2s ease forwards;
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    @keyframes glowPop {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .clinic-name h1 {
+      color: #004d40;
+      font-size: 2.2em;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      margin: 0;
+      text-shadow: 0 0 8px rgba(0, 255, 204, 0.6);
+    }
+
+    p.subtext {
+      font-size: 1.1rem;
+      margin-top: 10px;
+      color: #f0f0f0;
+    }
+
+    select, button {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    button {
+      background: #00bcd4;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #0097a7;
+    }
+
+    .review {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      padding: 15px;
+      margin: 15px auto;
+      width: 90%;
+      max-width: 600px;
+      text-align: left;
+    }
+
+    .review button {
+      margin-top: 10px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .copied {
+      color: #a5d6a7;
+      font-size: 0.9rem;
+      margin-left: 10px;
+    }
+
+    .google-link {
+      display: inline-block;
+      background: #4285F4;
+      color: white;
+      padding: 10px 20px;
+      margin-top: 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .google-link:hover {
+      background: #3367d6;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 1rem;
+      color: #e0f2f1;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1.5s ease;
+    }
+
+    footer p {
+      margin: 6px 0;
+      line-height: 1.5;
+      text-shadow: 0 0 6px rgba(0, 255, 204, 0.6);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div>
+      <img src="logo.png" alt="Smile Plus Logo" class="logo" />
+
+      <div class="clinic-name">
+        <h1>Smile Plus Dental Clinic and Implant Center</h1>
+      </div>
+
+      <p class="subtext">
+        Thank you for visiting our clinic! We would highly appreciate if you share your valuable feedback with us.
+      </p>
+
+      <a class="google-link" href="https://g.page/r/CZ_2i4drLOxCEAE/review" target="_blank">
+        Leave a Google Review
+      </a>
+
+      <div style="margin-top: 20px;">
+        <select id="language">
+          <option value="English">English</option>
+          <option value="Hindi">Hindi</option>
+          <option value="Gujarati">Gujarati</option>
+        </select>
+
+        <select id="treatment">
+          <option value="Dental Implants">Dental Implants</option>
+          <option value="Root Canal Treatment">Root Canal Treatment</option>
+          <option value="Braces and Aligners">Braces and Aligners</option>
+          <option value="Smile Makeover">Smile Makeover</option>
+          <option value="General Dentistry">General Dentistry</option>
+          <option value="Teeth Cleaning">Teeth Cleaning</option>
+          <option value="Tooth Removal">Tooth Removal</option>
+          <option value="Wisdom Tooth Surgery">Wisdom Tooth Surgery</option>
+        </select>
+
+        <button id="generateBtn">Generate Reviews</button>
+      </div>
+
+      <div id="reviewsContainer"></div>
+    </div>
+
+    <footer>
+      <p><strong>Timings:</strong> Mon to Sat — 9:00 AM to 7:30 PM<br>
+      Sunday by Appointment Only</p>
+      <p><strong>Address:</strong> 1st Floor, Raheman Plaza, Beside Shabina Shopping Center, Bhalej Road, Anand, Gujarat - 388001</p>
+    </footer>
+  </div>
+
+  <script>
+    const generateBtn = document.getElementById('generateBtn');
+    const reviewsContainer = document.getElementById('reviewsContainer');
+
+    generateBtn.addEventListener('click', async () => {
+      reviewsContainer.innerHTML = 'Generating reviews...';
+      const language = document.getElementById('language').value;
+      const treatment = document.getElementById('treatment').value;
+
+      try {
+        const res = await fetch('/api/generate-multiple-reviews', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ language, treatment })
+        });
+
+        const data = await res.json();
+        reviewsContainer.innerHTML = '';
+
+        if (data.reviews && data.reviews.length > 0) {
+          data.reviews.forEach((review, idx) => {
+            const div = document.createElement('div');
+            div.classList.add('review');
+            div.innerHTML = `
+              <p>${review}</p>
+              <button onclick="copyReview(${idx})">Copy</button>
+              <span id="copied-${idx}" class="copied"></span>
+            `;
+            reviewsContainer.appendChild(div);
+          });
+        } else {
+          reviewsContainer.innerHTML = '<p>No reviews generated.</p>';
+        }
+      } catch (err) {
+        console.error(err);
+        reviewsContainer.innerHTML = '<p>Error generating reviews.</p>';
+      }
+    });
+
+    function copyReview(idx) {
+      const reviewText = document.querySelectorAll('.review p')[idx].innerText;
+      navigator.clipboard.writeText(reviewText).then(() => {
+        const span = document.getElementById(`copied-${idx}`);
+        span.innerText = 'Copied!';
+        setTimeout(() => { span.innerText = ''; }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
