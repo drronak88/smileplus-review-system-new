@@ -46,57 +46,75 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
     let seoKeywords = `
     “best dental clinic in Anand”, “painless root canal”, “tooth-colored filling”, “dental implant”, “smile designing”
     `;
-// 💬 Step — Add multilingual tone and emotion based on treatment
+// 💬 Step — Add multilingual tone and emotion based on treatment (with emojis)
 let toneHint = '';
+let emojiHint = '';
 
-switch (treatment) {
-  case 'Dental Implants':
-    toneHint = 'Use a confident, happy tone showing restored smile and chewing comfort.';
-    break;
-  case 'Root Canal Treatment':
-    toneHint = 'Use a relieved and grateful tone, mentioning painless experience and comfort.';
-    break;
-  case 'Braces and Aligners':
-    toneHint = 'Use a cheerful, motivated tone about improved smile alignment and self-confidence.';
-    break;
-  case 'Smile Makeover':
-    toneHint = 'Use an excited, emotional tone showing joy of transformation and newfound confidence.';
-    break;
-  case 'General Dentistry':
-    toneHint = 'Use a calm, satisfied tone about regular checkups and preventive care.';
-    break;
-  case 'Teeth Cleaning':
-    toneHint = 'Use a fresh, light tone describing clean feeling and professional hygiene.';
-    break;
-  case 'Tooth Removal':
-    toneHint = 'Use a relieved and comfortable tone about painless extraction and recovery.';
-    break;
-  case 'Wisdom Tooth Surgery':
-    toneHint = 'Use a brave yet relaxed tone, mentioning expert handling and quick recovery.';
-    break;
- Hindi: {
-    'Dental Implants': 'एक आत्मविश्वासपूर्ण और खुशहाल लहजा रखें जो नए मुस्कान और चबाने में आराम को दर्शाए।',
-    'Root Canal Treatment': 'एक राहत भरा और आभारी लहजा रखें, जिसमें बिना दर्द के अनुभव और आराम का उल्लेख हो।',
-    'Braces and Aligners': 'एक उत्साहित लहजा रखें, जिसमें बेहतर मुस्कान और आत्मविश्वास की भावना झलके।',
-    'Smile Makeover': 'एक भावनात्मक और खुश लहजा रखें, जिसमें नई मुस्कान और आत्मविश्वास की खुशी झलके।',
-    'General Dentistry': 'एक शांत और संतुष्ट लहजा रखें, जिसमें नियमित जांच और देखभाल का जिक्र हो।',
-    'Teeth Cleaning': 'एक हल्का और ताज़गी भरा लहजा रखें, जिसमें साफ़ दाँतों और स्वच्छता का उल्लेख हो।',
-    'Tooth Removal': 'एक राहत भरा लहजा रखें, जिसमें दर्द-रहित अनुभव और तेजी से रिकवरी का जिक्र हो।',
-    'Wisdom Tooth Surgery': 'एक बहादुर लेकिन सहज लहजा रखें, जिसमें विशेषज्ञ देखभाल और तेज़ रिकवरी का उल्लेख हो।'
+const toneMap = {
+  English: {
+    'Dental Implants': {
+      tone: 'Use a confident, happy tone showing restored smile and chewing comfort.',
+      emoji: '😄'
+    },
+    'Root Canal Treatment': {
+      tone: 'Use a relieved and grateful tone, mentioning painless experience and comfort.',
+      emoji: '😌'
+    },
+    'Braces and Aligners': {
+      tone: 'Use a cheerful, motivated tone about improved smile alignment and self-confidence.',
+      emoji: '😁'
+    },
+    'Smile Makeover': {
+      tone: 'Use an emotional and joyful tone showing pride in new smile and confidence.',
+      emoji: '✨'
+    },
+    'General Dentistry': {
+      tone: 'Use a calm, satisfied tone about regular checkups and preventive care.',
+      emoji: '😊'
+    },
+    'Teeth Cleaning': {
+      tone: 'Use a fresh, light tone describing clean feeling and hygiene.',
+      emoji: '🪥'
+    },
+    'Tooth Removal': {
+      tone: 'Use a relieved and comfortable tone about painless extraction and recovery.',
+      emoji: '😅'
+    },
+    'Wisdom Tooth Surgery': {
+      tone: 'Use a brave yet relaxed tone, mentioning expert handling and quick recovery.',
+      emoji: '💪'
+    }
+  },
+  Hindi: {
+    'Dental Implants': { tone: 'एक आत्मविश्वासपूर्ण और खुशहाल लहजा रखें जो नए मुस्कान और आराम को दर्शाए।', emoji: '😄' },
+    'Root Canal Treatment': { tone: 'एक राहत भरा और आभारी लहजा रखें, जिसमें बिना दर्द के अनुभव और आराम का उल्लेख हो।', emoji: '😌' },
+    'Braces and Aligners': { tone: 'एक उत्साहित लहजा रखें, जिसमें बेहतर मुस्कान और आत्मविश्वास की भावना झलके।', emoji: '😁' },
+    'Smile Makeover': { tone: 'एक भावनात्मक और खुश लहजा रखें, जिसमें नई मुस्कान और आत्मविश्वास की खुशी झलके।', emoji: '✨' },
+    'General Dentistry': { tone: 'एक शांत और संतुष्ट लहजा रखें, जिसमें नियमित जांच और देखभाल का जिक्र हो।', emoji: '😊' },
+    'Teeth Cleaning': { tone: 'एक हल्का और ताज़गी भरा लहजा रखें, जिसमें साफ़ दाँतों और स्वच्छता का उल्लेख हो।', emoji: '🪥' },
+    'Tooth Removal': { tone: 'एक राहत भरा लहजा रखें, जिसमें दर्द-रहित अनुभव और तेजी से रिकवरी का जिक्र हो।', emoji: '😅' },
+    'Wisdom Tooth Surgery': { tone: 'एक बहादुर लेकिन सहज लहजा रखें, जिसमें विशेषज्ञ देखभाल और तेज़ रिकवरी का उल्लेख हो।', emoji: '💪' }
   },
   Gujarati: {
-    'Dental Implants': 'એક આત્મવિશ્વાસપૂર્ણ અને આનંદિત સ્વર રાખો જે નવી સ્મિત અને આરામદાયક ચાવવાની લાગણી દર્શાવે.',
-    'Root Canal Treatment': 'રાહતભર્યો અને આભારી સ્વર રાખો, જે પેઇનલેસ અનુભવ અને આરામ પર ભાર આપે.',
-    'Braces and Aligners': 'ઉત્સાહપૂર્ણ સ્વર રાખો, જેમાં સુધારેલી સ્મિત અને આત્મવિશ્વાસની લાગણી દર્શાય.',
-    'Smile Makeover': 'ભાવનાત્મક અને ખુશ સ્વર રાખો, જે નવી સ્મિત અને આત્મવિશ્વાસની ખુશી દર્શાવે.',
-    'General Dentistry': 'શાંત અને સંતોષકારક સ્વર રાખો, જેમાં નિયમિત તપાસ અને કાળજીનો ઉલ્લેખ હોય.',
-    'Teeth Cleaning': 'હળવો અને તાજગીભર્યો સ્વર રાખો, જે સ્વચ્છતા અને તાજા દાંતની લાગણી આપે.',
-    'Tooth Removal': 'રાહતભર્યો સ્વર રાખો, જે પેઇનલેસ એક્સટ્રેક્શન અને ઝડપી સાજા થવાની વાત કરે.',
-    'Wisdom Tooth Surgery': 'ધીરજપૂર્વકનો પરંતુ આરામદાયક સ્વર રાખો, જે નિષ્ણાત સંભાળ અને ઝડપી રિકવરી દર્શાવે.'
+    'Dental Implants': { tone: 'એક આત્મવિશ્વાસપૂર્ણ અને આનંદિત સ્વર રાખો જે નવી સ્મિત અને આરામ દર્શાવે.', emoji: '😄' },
+    'Root Canal Treatment': { tone: 'રાહતભર્યો અને આભારી સ્વર રાખો, જે પેઇનલેસ અનુભવ અને આરામ પર ભાર આપે.', emoji: '😌' },
+    'Braces and Aligners': { tone: 'ઉત્સાહપૂર્ણ સ્વર રાખો, જેમાં સુધારેલી સ્મિત અને આત્મવિશ્વાસની લાગણી દર્શાય.', emoji: '😁' },
+    'Smile Makeover': { tone: 'ભાવનાત્મક અને ખુશ સ્વર રાખો, જે નવી સ્મિત અને આત્મવિશ્વાસની ખુશી દર્શાવે.', emoji: '✨' },
+    'General Dentistry': { tone: 'શાંત અને સંતોષકારક સ્વર રાખો, જેમાં નિયમિત તપાસ અને કાળજીનો ઉલ્લેખ હોય.', emoji: '😊' },
+    'Teeth Cleaning': { tone: 'હળવો અને તાજગીભર્યો સ્વર રાખો, જે સ્વચ્છતા અને તાજા દાંતની લાગણી આપે.', emoji: '🪥' },
+    'Tooth Removal': { tone: 'રાહતભર્યો સ્વર રાખો, જે પેઇનલેસ એક્સટ્રેક્શન અને ઝડપી સાજા થવાની વાત કરે.', emoji: '😅' },
+    'Wisdom Tooth Surgery': { tone: 'ધીરજપૂર્વકનો પરંતુ આરામદાયક સ્વર રાખો, જે નિષ્ણાત સંભાળ અને ઝડપી રિકવરી દર્શાવે.', emoji: '💪' }
   }
 };
-  // ✅ Select tone based on current language and treatment
-toneHint = toneMap[language]?.[treatment] || 'Use a friendly and natural tone focused on dental care quality.';
+
+// ✅ Apply tone + emoji
+if (toneMap[language]?.[treatment]) {
+  toneHint = toneMap[language][treatment].tone;
+  emojiHint = toneMap[language][treatment].emoji;
+} else {
+  toneHint = 'Use a friendly and natural tone focused on dental care quality.';
+  emojiHint = '😊';
+}
 
 
     if (language === 'Hindi') {
@@ -123,7 +141,7 @@ Each review should:
 - Naturally include 1–2 of these search-friendly phrases: ${seoKeywords}.
 - Highlight friendliness of the staff, hygiene, and modern facilities.
 - Mention Dr. Ronak Dewani’s friendly nature, expertise, and professional care during the ${treatment}.
-- ${toneHint}
+- ${toneHint}- Include one relevant emoji like ${emojiHint} at the end of each review naturally.
 Make each review distinct in tone, vocabulary, and structure.
 Separate each review with two new lines.`
         }
