@@ -46,6 +46,38 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
     let seoKeywords = `
     “best dental clinic in Anand”, “painless root canal”, “tooth-colored filling”, “dental implant”, “smile designing”
     `;
+// 💬 Step — Add tone and emotion based on treatment
+let toneHint = '';
+
+switch (treatment) {
+  case 'Dental Implants':
+    toneHint = 'Use a confident, happy tone showing restored smile and chewing comfort.';
+    break;
+  case 'Root Canal Treatment':
+    toneHint = 'Use a relieved and grateful tone, mentioning painless experience and comfort.';
+    break;
+  case 'Braces and Aligners':
+    toneHint = 'Use a cheerful, motivated tone about improved smile alignment and self-confidence.';
+    break;
+  case 'Smile Makeover':
+    toneHint = 'Use an excited, emotional tone showing joy of transformation and newfound confidence.';
+    break;
+  case 'General Dentistry':
+    toneHint = 'Use a calm, satisfied tone about regular checkups and preventive care.';
+    break;
+  case 'Teeth Cleaning':
+    toneHint = 'Use a fresh, light tone describing clean feeling and professional hygiene.';
+    break;
+  case 'Tooth Removal':
+    toneHint = 'Use a relieved and comfortable tone about painless extraction and recovery.';
+    break;
+  case 'Wisdom Tooth Surgery':
+    toneHint = 'Use a brave yet relaxed tone, mentioning expert handling and quick recovery.';
+    break;
+  default:
+    toneHint = 'Use a friendly and natural tone focused on dental care quality.';
+}
+
 
     if (language === 'Hindi') {
       seoKeywords = `“आनंद का बेस्ट डेंटल क्लिनिक”, “पेनलेस रूट कैनाल”, “डेंटल इम्प्लांट”, “स्माइल डिजाइनिंग”`;
