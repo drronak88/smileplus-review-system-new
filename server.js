@@ -60,16 +60,17 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
         {
           role: 'system',
           content:
-            'You are a friendly and natural-sounding AI that writes 50–80 word patient reviews for Smile Plus Dental Clinic. Each review must sound authentic, polite, and specific. Mention professionalism, hygiene, modern dental care, and patient comfort. Avoid using patient names or fake doctor names. Keep tone conversational and realistic like genuine Google reviews.'
+            'You are a friendly and natural-sounding AI that writes 80–100 word patient reviews for Smile Plus Dental Clinic. Each review must sound authentic, polite, and specific. Mention professionalism, hygiene, modern dental care, and patient comfort. Avoid using patient names or fake doctor names. Keep tone conversational and realistic like genuine Google reviews.'
         },
         {
           role: 'user',
-          content: `Write five unique, SEO-friendly 50–80 word reviews for Smile Plus Dental Clinic ${promptLanguage}.
+          content: `Write five unique, SEO-friendly 80–100 word reviews for Smile Plus Dental Clinic ${promptLanguage}.
 Each review should:
-- Sound like a real patient sharing a positive experience.
+- Specifically mention the treatment: "${treatment}" as if the patient personally received it.
+- Sound like a real patient sharing a positive experience related to that treatment.
 - Naturally include 1–2 of these search-friendly phrases: ${seoKeywords}.
 - Highlight friendliness of the staff, hygiene, and modern facilities.
-- Mention Dr. Ronak Dewani’s friendly nature, expertise, and professional care.
+- Mention Dr. Ronak Dewani’s friendly nature, expertise, and professional care during the ${treatment}.
 Make each review distinct in tone, vocabulary, and structure.
 Separate each review with two new lines.`
         }
