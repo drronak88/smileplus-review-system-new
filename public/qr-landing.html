@@ -151,39 +151,56 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    /* --- Social Media Buttons --- */
-    .social-links {
+  /* --- Social Media Buttons --- */
+    .social-section {
+  margin-top: 25px;
+  text-align: center;
+  animation: fadeIn 1.2s ease;
+}
+
+.follow-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e0f2f1;
+  margin-bottom: 10px;
+  text-shadow: 0 0 6px rgba(0, 255, 204, 0.6);
+}
+
+.social-links {
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-top: 15px;
 }
 
-.social-links a {
-  display: inline-block;
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 8px 14px;
+  border-radius: 30px;
   color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
   text-decoration: none;
-  transition: 0.3s;
   font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
 }
 
-.instagram-link {
-  background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4);
+.social-btn img {
+  width: 22px;
+  height: 22px;
 }
 
-.instagram-link:hover {
-  filter: brightness(1.2);
+.social-btn.fb:hover {
+  background: #1877f2;
+  box-shadow: 0 0 15px rgba(24, 119, 242, 0.6);
 }
 
-.facebook-link {
-  background: #4267B2;
+.social-btn.insta:hover {
+  background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af);
+  box-shadow: 0 0 15px rgba(221, 42, 123, 0.6);
 }
 
-.facebook-link:hover {
-  background: #365899;
-}
 
   </style>
 </head>
@@ -204,13 +221,18 @@
         Leave a Google Review
       </a>
 
-<div class="social-links">
-  <a href="https://www.instagram.com/smileplus.anand" target="_blank" class="social-btn instagram">
-    🌸 Follow us on Instagram
-  </a>
-  <a href="https://www.facebook.com/smileplus.anand" target="_blank" class="social-btn facebook">
-    👍 Follow us on Facebook
-  </a>
+<div class="social-section">
+  <p class="follow-text">Follow us on</p>
+  <div class="social-links">
+    <a href="https://www.facebook.com/smileplus.anand" target="_blank" class="social-btn fb">
+      <img src="facebook.png" alt="Facebook" />
+      Facebook
+    </a>
+    <a href="https://www.instagram.com/smileplus.anand" target="_blank" class="social-btn insta">
+      <img src="instagram.png" alt="Instagram" />
+      Instagram
+    </a>
+  </div>
 </div>
 
       <div style="margin-top: 20px;">
