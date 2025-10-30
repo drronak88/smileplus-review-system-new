@@ -151,6 +151,38 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    /* --- Social Media Buttons --- */
+    .social-links {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .social-btn {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: 0.3s;
+      box-shadow: 0 0 8px rgba(255,255,255,0.2);
+    }
+
+    .social-btn.instagram {
+      background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
+    }
+
+    .social-btn.facebook {
+      background: #1877f2;
+    }
+
+    .social-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 12px rgba(255,255,255,0.4);
+    }
+
   </style>
 </head>
 <body>
@@ -169,6 +201,15 @@
       <a class="google-link" href="https://g.page/r/CZ_2i4drLOxCEAE/review" target="_blank">
         Leave a Google Review
       </a>
+
+<div class="social-links">
+  <a href="https://www.instagram.com/smileplus.anand" target="_blank" class="social-btn instagram">
+    🌸 Follow us on Instagram
+  </a>
+  <a href="https://www.facebook.com/smileplus.anand" target="_blank" class="social-btn facebook">
+    👍 Follow us on Facebook
+  </a>
+</div>
 
       <div style="margin-top: 20px;">
         <select id="language">
