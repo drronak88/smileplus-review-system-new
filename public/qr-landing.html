@@ -225,6 +225,22 @@
       0% { opacity: 0.7; text-shadow: 0 0 5px #ff9cff, 0 0 10px #ffaaff; }
       100% { opacity: 1; text-shadow: 0 0 12px #ffffff, 0 0 24px #ff8cff; }
     }
+/* --- Facebook Feed Box Styling --- */
+.facebook-feed-box {
+  display: flex;
+  justify-content: center;
+  margin: 40px auto 20px auto;
+  padding: 15px;
+  width: 90%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  box-shadow:
+    0 0 12px rgba(0, 255, 204, 0.3),
+    inset 0 0 8px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 1.5s ease;
+}
 
   </style>
 </head>
@@ -270,25 +286,7 @@ We would highly appreciate if you share your valuable feedback with us.
           </a>
         </div>
       </div>
-<div class="facebook-feed-box" style="
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-">
-  <iframe 
-    src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fsmileplus.anand&tabs=timeline&width=350&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" 
-    width="350" 
-    height="500" 
-    style="border:none;overflow:hidden;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.3);" 
-    scrolling="no" 
-    frameborder="0" 
-    allowfullscreen="true" 
-    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-  </iframe>
-</div>
-
-
-      <div style="margin-top: 20px;">
+        <div style="margin-top: 20px;">
         <select id="language">
           <option value="English">English</option>
           <option value="Hindi">Hindi</option>
@@ -311,6 +309,19 @@ We would highly appreciate if you share your valuable feedback with us.
 
       <div id="reviewsContainer"></div>
     </div>
+<!-- Facebook Feed Box -->
+<div class="facebook-feed-box">
+  <iframe 
+    src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fsmileplus.anand&tabs=timeline&width=350&height=350&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" 
+    width="350" 
+    height="350" 
+    style="border:none;overflow:hidden;" 
+    scrolling="no" 
+    frameborder="0" 
+    allowfullscreen="true" 
+    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+  </iframe>
+</div>
 
     <footer>
       <p><strong>Timings:</strong> Mon to Sat — 9:00 AM to 7:30 PM<br>
