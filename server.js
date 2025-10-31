@@ -136,7 +136,6 @@ if (toneMap[language]?.[treatment]) {
         {
           role: 'user',
           content: `Write five unique, SEO-friendly 80–100 word reviews for Smile Plus Dental Clinic ${promptLanguage}.
-Make sure the tone sounds natural, like how real patients in Anand would speak — not overly formal or machine-like.
 Each review should:
 - Specifically mention the treatment: "${treatment}" as if the patient personally received it.
 - Sound like a real patient sharing a positive experience related to that treatment.
