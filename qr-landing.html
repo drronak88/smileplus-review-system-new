@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmilePlus Review Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://images.unsplash.com/photo-1588776814546-8ebbf4a172d4?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      backdrop-filter: blur(4px);
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      max-width: 700px;
+      margin: 60px auto;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #0077b6;
+    }
+
+    select, button {
+      padding: 10px;
+      margin: 10px 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+
+    button {
+      background: #0077b6;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #023e8a;
+    }
+
+    .review {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 10px 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .copy-btn {
+      background: #00b4d8;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 12px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .copy-btn:hover {
+      background: #0077b6;
+    }
+
+    .google-link {
+      display: inline-block;
+      background: #34a853;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .copied {
+      color: green;
+      font-size: 0.9em;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>SmilePlus Review Generator</h1>
+
+    <div style="text-align:center;">
+      <a class="google-link" href="https://g.page/r/CZ_2i4drLOxCEAE/review" target="_blank">
+        🌟 Leave a Google Review
+      </a>
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+      <select id="language">
+        <option value="English">English</option>
+        <option value="Hindi">Hindi</option>
+        <option value="Gujarati">Gujarati</option>
+      </select>
+
+      <select id="treatment">
+        <option value="General Dentistry">General Dentistry</option>
+        <option value="Dental Implants">Dental Implants</option>
+        <option value="Root Canal Treatment">Root Canal Treatment</option>
+        <option value="Teeth Cleaning">Teeth Cleaning</option>
+        <option value="Braces">Braces</option>
+        <option value="Smile Makeover">Smile Makeover</option>
+        <option value="Crown and Bridge">Crown and Bridge</option>
+        <option value="Child Dentistry">Child Dentistry</option>
+      </select>
+
+      <button id="generateBtn">Generate Reviews</button>
+    </div>
+
+    <div id="reviewsContainer" style="margin-top:20px;"></div>
+  </div>
+
+  <script>
+    const generateBtn = document.getElementById('generateBtn');
+    const reviewsContainer = document.getElementById('reviewsContainer');
+
+    generateBtn.addEventListener('click', async () => {
+      reviewsContainer.innerHTML = '<p>✨ Generating reviews...</p>';
+      const language = document.getElementById('language').value;
+      const treatment = document.getElementById('treatment').value;
+
+      try {
+        const res = await fetch('/api/generate-multiple-reviews', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ language, treatment })
+        });
+        const data = await res.json();
+        reviewsContainer.innerHTML = '';
+
+        if (data.reviews && data.reviews.length > 0) {
+          data.reviews.forEach((review, idx) => {
+            const div = document.createElement('div');
+            div.classList.add('review');
+            div.innerHTML = `
+              <p>${review}</p>
+              <button class="copy-btn" onclick="copyReview(${idx})">Copy Review</button>
+              <span id="copied-${idx}" class="copied"></span>
+            `;
+            reviewsContainer.appendChild(div);
+          });
+        } else {
+          reviewsContainer.innerHTML = '<p>No reviews generated.</p>';
+        }
+      } catch (err) {
+        console.error(err);
+        reviewsContainer.innerHTML = '<p>⚠️ Error generating reviews. Please try again.</p>';
+      }
+    });
+
+    function copyReview(idx) {
+      const reviewText = document.querySelectorAll('.review p')[idx].innerText;
+      navigator.clipboard.writeText(reviewText).then(() => {
+        const span = document.getElementById(`copied-${idx}`);
+        span.innerText = 'Copied!';
+        setTimeout(() => (span.innerText = ''), 2000);
+      });
+    }
+  </script>
+</body>
+</html>
