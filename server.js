@@ -53,10 +53,10 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
         },
         {
           role: 'user',
-          content: `Write five different 40–50 word patient reviews for Smile Plus Dental Clinic ${promptLanguage}. Each review should sound polite, natural, and authentic, highlighting friendliness, professionalism, hygiene, and modern facilities. Do not include names or personal details. Output each review separated by two new lines.`,
+          content: `Write Three different 40–50 word patient reviews for Smile Plus Dental Clinic ${promptLanguage}. Each review should sound polite, natural, and authentic, highlighting friendliness, professionalism, hygiene, and modern facilities. Do not include names or personal details. Output each review separated by two new lines.`,
         },
       ],
-      max_tokens: 700,
+      max_tokens: 500,
       temperature: 0.8,
     };
 
