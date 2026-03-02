@@ -49,11 +49,11 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
         {
           role: 'system',
           content:
-            'You are a professional assistant that writes short, 40–50 word patient reviews for Smile Plus Dental Clinic. Always produce authentic-sounding text, avoid revealing private or medical details, and include relevant dental keywords such as: dental, dentist, clinic, hygiene, cleaning, crown, filling, root canal, implant, friendly staff, painless, modern equipment, consultation.',
+            'You are a professional assistant that writes short, 50-60  word patient reviews for Smile Plus Dental Clinic. Always produce authentic-sounding text, avoid revealing private or medical details, and include relevant dental keywords such as: dental, dentist, clinic, hygiene, cleaning, crown, filling, root canal, implant, friendly staff, painless, modern equipment, consultation.',
         },
         {
           role: 'user',
-          content: `Write Three different 40–50 word patient reviews for Smile Plus Dental Clinic ${promptLanguage}. Each review should sound polite, natural, and authentic, highlighting friendliness, professionalism, hygiene, and modern facilities. Do not include names or personal details. Output each review separated by two new lines.`,
+          content: `Write Three different 50-60 word patient reviews for Smile Plus Dental Clinic ${promptLanguage}. Each review should sound polite, natural, and authentic, highlighting friendliness, professionalism, hygiene, and modern facilities. Do not include names or personal details. Output each review separated by two new lines.`,
         },
       ],
       max_tokens: 500,
