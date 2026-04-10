@@ -1,171 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SmilePlus Review Generator</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: url('https://images.unsplash.com/photo-1588776814546-8ebbf4a172d4?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
-      margin: 0;
-      padding: 0;
-      color: #333;
-      backdrop-filter: blur(4px);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smile Plus Dental Clinic</title>
 
-    .container {
-      background: rgba(255, 255, 255, 0.9);
-      max-width: 700px;
-      margin: 60px auto;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    h1 {
-      text-align: center;
-      color: #0077b6;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5') no-repeat center center/cover;
+  color: white;
+}
 
-    select, button {
-      padding: 10px;
-      margin: 10px 5px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1em;
-    }
+.overlay {
+  background: rgba(0,0,0,0.6);
+  min-height: 100vh;
+  padding: 20px;
+  text-align: center;
+}
 
-    button {
-      background: #0077b6;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #f4a742;
+  margin-bottom: 10px;
+}
 
-    button:hover {
-      background: #023e8a;
-    }
+.title-box {
+  background: rgba(255,255,255,0.85);
+  color: #00695c;
+  padding: 15px;
+  border-radius: 12px;
+  display: inline-block;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
 
-    .review {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 10px;
-      margin: 10px 0;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
+.subtitle {
+  margin-bottom: 25px;
+  font-size: 15px;
+}
 
-    .copy-btn {
-      background: #00b4d8;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 8px 12px;
-      cursor: pointer;
-      margin-top: 5px;
-    }
+.btn {
+  display: block;
+  width: 260px;
+  margin: 10px auto;
+  padding: 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
 
-    .copy-btn:hover {
-      background: #0077b6;
-    }
+.google { background: #4285F4; }
+.facebook { background: #1877F2; }
 
-    .google-link {
-      display: inline-block;
-      background: #34a853;
-      color: white;
-      padding: 12px 18px;
-      border-radius: 8px;
-      text-decoration: none;
-      margin-top: 10px;
-      font-weight: bold;
-    }
+.follow {
+  margin-top: 20px;
+  font-weight: bold;
+}
 
-    .copied {
-      color: green;
-      font-size: 0.9em;
-      margin-left: 8px;
-    }
-  </style>
+.social {
+  margin-top: 10px;
+}
+
+.social a {
+  margin: 0 10px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  text-decoration: none;
+}
+
+.controls {
+  margin-top: 25px;
+}
+
+select {
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  margin: 5px;
+}
+
+.generate-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #00bcd4;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.reviews {
+  margin-top: 20px;
+}
+
+.review-box {
+  background: rgba(255,255,255,0.9);
+  color: #333;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 8px auto;
+  width: 85%;
+  max-width: 400px;
+  font-size: 14px;
+}
+
+.footer {
+  margin-top: 30px;
+  padding: 15px;
+  background: rgba(0,0,0,0.5);
+  font-size: 14px;
+}
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>SmilePlus Review Generator</h1>
 
-    <div style="text-align:center;">
-      <a class="google-link" href="https://g.page/r/CZ_2i4drLOxCEAE/review" target="_blank">
-        🌟 Leave a Google Review
-      </a>
-    </div>
+<div class="overlay">
 
-    <div style="text-align:center; margin-top:20px;">
-      <select id="language">
-        <option value="English">English</option>
-        <option value="Hindi">Hindi</option>
-        <option value="Gujarati">Gujarati</option>
-      </select>
+<div class="logo">Smile Plus Dental Clinic</div>
 
-      <select id="treatment">
-        <option value="General Dentistry">General Dentistry</option>
-        <option value="Dental Implants">Dental Implants</option>
-        <option value="Root Canal Treatment">Root Canal Treatment</option>
-        <option value="Teeth Cleaning">Teeth Cleaning</option>
-        <option value="Braces">Braces</option>
-        <option value="Smile Makeover">Smile Makeover</option>
-        <option value="Crown and Bridge">Crown and Bridge</option>
-        <option value="Child Dentistry">Child Dentistry</option>
-      </select>
+<div class="title-box">
+Smile Plus Dental Clinic and Implant Center
+</div>
 
-      <button id="generateBtn">Generate Reviews</button>
-    </div>
+<div class="subtitle">
+Thank you for visiting our clinic! We would highly appreciate if you share your valuable feedback with us.
+</div>
 
-    <div id="reviewsContainer" style="margin-top:20px;"></div>
-  </div>
+<a href="https://g.page/r/CZ_2i4drLOxCEAE/review" class="btn google" target="_blank">
+⭐ Leave a Google Review
+</a>
 
-  <script>
-    const generateBtn = document.getElementById('generateBtn');
-    const reviewsContainer = document.getElementById('reviewsContainer');
+<a href="https://www.facebook.com/smileplus.anand/reviews" class="btn facebook" target="_blank">
+👍 Leave a Facebook Review
+</a>
 
-    generateBtn.addEventListener('click', async () => {
-      reviewsContainer.innerHTML = '<p>✨ Generating reviews...</p>';
-      const language = document.getElementById('language').value;
-      const treatment = document.getElementById('treatment').value;
+<div class="follow">Follow us on</div>
 
-      try {
-        const res = await fetch('/api/generate-multiple-reviews', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ language, treatment })
-        });
-        const data = await res.json();
-        reviewsContainer.innerHTML = '';
+<div class="social">
+<a href="https://www.facebook.com/smileplus.anand" target="_blank">
+<i class="fab fa-facebook"></i> Facebook
+</a>
 
-if (data.reviews && data.reviews.length > 0) {
-  data.reviews.slice(0, 3).forEach((review, idx) => {data.reviews.slice(0, 3).forEach((review, idx) => {            const div = document.createElement('div');
-            div.classList.add('review');
-            div.innerHTML = `
-              <p>${review}</p>
-              <button class="copy-btn" onclick="copyReview(${idx})">Copy Review</button>
-              <span id="copied-${idx}" class="copied"></span>
-            `;
-            reviewsContainer.appendChild(div);
-          });
-        } else {
-          reviewsContainer.innerHTML = '<p>No reviews generated.</p>';
-        }
-      } catch (err) {
-        console.error(err);
-        reviewsContainer.innerHTML = '<p>⚠️ Error generating reviews. Please try again.</p>';
-      }
-    });
+<a href="https://www.instagram.com/smileplusdentalclinic.anand" target="_blank">
+<i class="fab fa-instagram"></i> Instagram
+</a>
+</div>
 
-    function copyReview(idx) {
-      const reviewText = document.querySelectorAll('.review p')[idx].innerText;
-      navigator.clipboard.writeText(reviewText).then(() => {
-        const span = document.getElementById(`copied-${idx}`);
-        span.innerText = 'Copied!';
-        setTimeout(() => (span.innerText = ''), 2000);
-      });
-    }
-  </script>
+<div class="controls">
+<select id="language">
+<option>English</option>
+<option>Hindi</option>
+<option>Gujarati</option>
+</select>
+
+<select id="treatment">
+<option>Dental Implants</option>
+<option>Root Canal Treatment</option>
+<option>Braces and Aligners</option>
+<option>Smile Makeover</option>
+<option>Dental Treatment</option>
+<option>Teeth Cleaning</option>
+<option>Tooth Removal</option>
+<option>Wisdom Tooth Surgery</option>
+</select>
+
+<button class="generate-btn" onclick="generateReviews()">Generate Reviews</button>
+</div>
+
+<div class="reviews" id="reviews"></div>
+
+<div class="footer">
+<b>Timings:</b> Mon to Sat – 9:00 AM to 7:30 PM<br>
+Sunday by Appointment Only<br><br>
+
+<b>Address:</b> 1st Floor, Raheman Plaza, Beside Shabina Shopping Center,  
+Bhalej Road, Anand, Gujarat – 388001
+</div>
+
+</div>
+
+<script>
+async function generateReviews() {
+  const language = document.getElementById("language").value;
+  const treatment = document.getElementById("treatment").value;
+
+  const res = await fetch('/api/generate-multiple-reviews', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ language, treatment })
+  });
+
+  const data = await res.json();
+  const container = document.getElementById("reviews");
+  container.innerHTML = "";
+
+  data.reviews.forEach(r => {
+    const div = document.createElement("div");
+    div.className = "review-box";
+    div.innerText = r;
+    container.appendChild(div);
+  });
+}
+</script>
+
 </body>
 </html>
