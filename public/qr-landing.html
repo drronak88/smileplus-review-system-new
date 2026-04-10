@@ -1,88 +1,171 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Leave a Review — Smile Plus Dental Clinic</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmilePlus Review Generator</title>
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#f6fafc}
-    .card{background:white;padding:20px;border-radius:12px;box-shadow:0 6px 24px rgba(20,30,40,0.08);max-width:420px;width:92%}
-    button{width:100%;padding:12px;border-radius:10px;border:0;font-size:16px;cursor:pointer}
-    .primary{background:#0b76ef;color:white;margin-top:8px}
-    .muted{background:#eef3fb;color:#0b76ef;margin-top:8px}
-    .note{font-size:13px;color:#556;margin-top:8px}
-    .review{margin-top:12px;padding:10px;border-radius:8px;background:#f4f7fb;font-size:15px}
-    .lang-select{display:flex;justify-content:space-between;margin-bottom:12px}
-    .lang-btn{flex:1;margin:0 4px;padding:10px;border-radius:8px;border:1px solid #0b76ef;background:#eef3fb;color:#0b76ef;font-weight:500;cursor:pointer}
-    .lang-btn.active{background:#0b76ef;color:white}
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://images.unsplash.com/photo-1588776814546-8ebbf4a172d4?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      backdrop-filter: blur(4px);
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      max-width: 700px;
+      margin: 60px auto;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #0077b6;
+    }
+
+    select, button {
+      padding: 10px;
+      margin: 10px 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+
+    button {
+      background: #0077b6;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #023e8a;
+    }
+
+    .review {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 10px 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .copy-btn {
+      background: #00b4d8;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 12px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .copy-btn:hover {
+      background: #0077b6;
+    }
+
+    .google-link {
+      display: inline-block;
+      background: #34a853;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .copied {
+      color: green;
+      font-size: 0.9em;
+      margin-left: 8px;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>Thank you for visiting Smile Plus Dental Clinic 😁</h2>
-    <p class="note">Please select your preferred language and generate 5 polite reviews (each 40–50 words). You can edit or copy your favorite before posting.</p>
+  <div class="container">
+    <h1>SmilePlus Review Generator</h1>
 
-    <div class="lang-select">
-      <button id="btnEn" class="lang-btn active" data-lang="English">English</button>
-      <button id="btnHi" class="lang-btn" data-lang="Hindi">हिंदी</button>
-      <button id="btnGu" class="lang-btn" data-lang="Gujarati">ગુજરાતી</button>
+    <div style="text-align:center;">
+      <a class="google-link" href="https://g.page/r/CZ_2i4drLOxCEAE/review" target="_blank">
+        🌟 Leave a Google Review
+      </a>
     </div>
 
-    <button id="generateBtn" class="primary">Generate Reviews</button>
+    <div style="text-align:center; margin-top:20px;">
+      <select id="language">
+        <option value="English">English</option>
+        <option value="Hindi">Hindi</option>
+        <option value="Gujarati">Gujarati</option>
+      </select>
 
-    <div id="outputContainer"></div>
-    <p class="note">We never store personal or medical information. This optional tool helps you write a review easily and authentically.</p>
+      <select id="treatment">
+        <option value="General Dentistry">General Dentistry</option>
+        <option value="Dental Implants">Dental Implants</option>
+        <option value="Root Canal Treatment">Root Canal Treatment</option>
+        <option value="Teeth Cleaning">Teeth Cleaning</option>
+        <option value="Braces">Braces</option>
+        <option value="Smile Makeover">Smile Makeover</option>
+        <option value="Crown and Bridge">Crown and Bridge</option>
+        <option value="Child Dentistry">Child Dentistry</option>
+      </select>
+
+      <button id="generateBtn">Generate Reviews</button>
+    </div>
+
+    <div id="reviewsContainer" style="margin-top:20px;"></div>
   </div>
 
   <script>
-    const gen = document.getElementById('generateBtn');
-    const container = document.getElementById('outputContainer');
-    const langBtns = document.querySelectorAll('.lang-btn');
-    let selectedLang = 'English';
+    const generateBtn = document.getElementById('generateBtn');
+    const reviewsContainer = document.getElementById('reviewsContainer');
 
-    langBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        langBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        selectedLang = btn.getAttribute('data-lang');
-      });
-    });
+    generateBtn.addEventListener('click', async () => {
+      reviewsContainer.innerHTML = '<p>✨ Generating reviews...</p>';
+      const language = document.getElementById('language').value;
+      const treatment = document.getElementById('treatment').value;
 
-    gen.addEventListener('click', async () => {
-      gen.disabled = true; gen.innerText = 'Generating...';
-      container.innerHTML = '';
       try {
-        const resp = await fetch('/api/generate-multiple-reviews', {
+        const res = await fetch('/api/generate-multiple-reviews', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ language: selectedLang })
+          body: JSON.stringify({ language, treatment })
         });
-        const data = await resp.json();
-        if (data.reviews && data.reviews.length) {
-          data.reviews.forEach(text => {
-            const div = document.createElement('div');
-            div.className = 'review';
-            div.innerText = text;
-            const btn = document.createElement('button');
-            btn.className = 'muted';
-            btn.innerText = 'Copy';
-            btn.addEventListener('click', async () => {
-              await navigator.clipboard.writeText(text);
-              btn.innerText = 'Copied!';
-              setTimeout(()=>btn.innerText='Copy',1500);
-            });
-            container.appendChild(div);
-            container.appendChild(btn);
+        const data = await res.json();
+        reviewsContainer.innerHTML = '';
+
+if (data.reviews && data.reviews.length > 0) {
+  data.reviews.slice(0, 3).forEach((review, idx) => {data.reviews.slice(0, 3).forEach((review, idx) => {            const div = document.createElement('div');
+            div.classList.add('review');
+            div.innerHTML = `
+              <p>${review}</p>
+              <button class="copy-btn" onclick="copyReview(${idx})">Copy Review</button>
+              <span id="copied-${idx}" class="copied"></span>
+            `;
+            reviewsContainer.appendChild(div);
           });
         } else {
-          container.innerHTML = '<p class="note">No reviews generated. Please try again later.</p>';
+          reviewsContainer.innerHTML = '<p>No reviews generated.</p>';
         }
-      } catch (e) {
-        container.innerHTML = '<p class="note">Unable to generate reviews right now.</p>';
-      } finally {
-        gen.disabled = false; gen.innerText = 'Generate Reviews';
+      } catch (err) {
+        console.error(err);
+        reviewsContainer.innerHTML = '<p>⚠️ Error generating reviews. Please try again.</p>';
       }
     });
+
+    function copyReview(idx) {
+      const reviewText = document.querySelectorAll('.review p')[idx].innerText;
+      navigator.clipboard.writeText(reviewText).then(() => {
+        const span = document.getElementById(`copied-${idx}`);
+        span.innerText = 'Copied!';
+        setTimeout(() => (span.innerText = ''), 2000);
+      });
+    }
   </script>
 </body>
 </html>
