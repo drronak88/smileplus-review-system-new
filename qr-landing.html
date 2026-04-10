@@ -139,9 +139,8 @@
         const data = await res.json();
         reviewsContainer.innerHTML = '';
 
-        if (data.reviews && data.reviews.length > 0) {
-          data.reviews.forEach((review, idx) => {
-            const div = document.createElement('div');
+if (data.reviews && data.reviews.length > 0) {
+  data.reviews.slice(0, 3).forEach((review, idx) => {data.reviews.slice(0, 3).forEach((review, idx) => {            const div = document.createElement('div');
             div.classList.add('review');
             div.innerHTML = `
               <p>${review}</p>
