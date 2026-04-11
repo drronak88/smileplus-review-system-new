@@ -75,35 +75,41 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
         ? `Also naturally include Gujarati SEO keywords like: ${gujaratiKeyword}`
         : '';
 
-    // 🧠 FINAL PROMPT
-{
-  role: 'user',
-  content: `Write three unique, natural-sounding 50-80 word reviews for Smile Plus Dental Clinic ${promptLanguage}, specifically about ${treatment}. Highlight friendliness, modern facilities, hygiene, and painless experience. Each review must sound genuine and human-like and include Dr. Ronak Dewani's behaviour, expertise, and experience. Separate reviews with two new lines.`
-}
+// 🧠 FINAL PROMPT 
+messages: [
+  {
+    role: 'system',
+    content: 'You are a friendly AI that writes natural, human-like patient reviews for Smile Plus Dental Clinic. Reviews must sound genuine, conversational, and like real Google reviews. Focus on patient comfort, hygiene, and modern dental care. Never include patient names or fake doctor names.'
+  },
+  {
+    role: 'user',
+    content: `Write exactly 3 unique, natural-sounding patient reviews for Smile Plus Dental Clinic ${promptLanguage}.
+
 Each review must:
 - Mix format:
    • 1 short review (50-60 words)
    • 2 detailed reviews (80-100 words)
 - Sound completely natural and human
-- Include a short "before condition" (pain, fear, broken tooth, etc.)
+- Include a short "before condition" (pain, fear, broken tooth, sensitivity, etc.)
 - Clearly mention the treatment: ${treatment || 'dental treatment'}
 - Include SEO keywords naturally: ${treatmentKeyword}
-- Mention Dr. Ronak Dewani (expertise, calm nature, friendly behavior)
-- Highlight hygiene, modern equipment, painless experience
-- End positively with satisfaction
+- Mention Dr. Ronak Dewani's expertise, calm nature, and friendly behaviour
+- Highlight hygiene, modern equipment, and painless experience
+- End with a positive, satisfied tone
 
 ${extraGujarati}
 
 Additional rules:
 - No patient names
 - No repetition
-- Make all 3 reviews different
+- Make all 3 reviews clearly different
 - Add 1–2 emojis in ONLY ONE review
+- Do NOT use numbering, bullets, or labels
 
 Return exactly 3 reviews separated by two blank lines.
-Do NOT include numbering, bullets, or labels.
-Only return plain review text.
-`;
+Only return plain review text.`
+  }
+],
 
     // 🔗 OpenAI API call
     const openaiResp = await fetch('https://api.openai.com/v1/chat/completions', {
