@@ -40,53 +40,40 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
         ? 'in Gujarati (ગુજરાતીમાં)'
         : 'in English';
 
-const treatmentKeyword =
-  treatment === 'Root Canal Treatment'
-    ? 'best root canal dentist in Anand, painless root canal treatment in Anand'
-    : treatment === 'Dental Implants'
-    ? 'best dental implant clinic in Anand, affordable dental implants in Anand'
-    : treatment === 'Braces and Aligners'
-    ? 'best orthodontist in Anand, invisible aligners in Anand'
-    : treatment === 'Teeth Cleaning'
-    ? 'best teeth cleaning in Anand, dental scaling in Anand'
-    : treatment === 'Tooth Removal'
-    ? 'painless tooth extraction in Anand, wisdom tooth removal in Anand'
-    : treatment === 'Smile Makeover'
-    ? 'smile makeover clinic in Anand, cosmetic dentistry in Anand'
-    : 'best dentist in Anand, dental clinic in Anand';
+    // ✅ CLEAN KEYWORD LOGIC (ONLY ONCE)
+    let treatmentKeyword = '';
+    let gujaratiKeyword = '';
 
-let treatmentKeyword = '';
-let gujaratiKeyword = '';
+    if (treatment === 'Root Canal Treatment') {
+      treatmentKeyword = 'best root canal dentist in Anand, painless root canal treatment in Anand';
+      gujaratiKeyword = 'આણંદમાં શ્રેષ્ઠ રૂટ કેનલ ડેન્ટિસ્ટ';
+    } else if (treatment === 'Dental Implants') {
+      treatmentKeyword = 'best dental implant clinic in Anand, affordable dental implants in Anand';
+      gujaratiKeyword = 'આણંદમાં શ્રેષ્ઠ ડેન્ટલ ઇમ્પ્લાન્ટ ક્લિનિક';
+    } else if (treatment === 'Braces and Aligners') {
+      treatmentKeyword = 'best orthodontist in Anand, invisible aligners in Anand';
+      gujaratiKeyword = 'આણંદમાં શ્રેષ્ઠ ઓર્થોડોન્ટિસ્ટ';
+    } else if (treatment === 'Teeth Cleaning') {
+      treatmentKeyword = 'best teeth cleaning in Anand, dental scaling in Anand';
+      gujaratiKeyword = 'આણંદમાં દાંત સફાઈ માટે શ્રેષ્ઠ ક્લિનિક';
+    } else if (treatment === 'Tooth Removal') {
+      treatmentKeyword = 'painless tooth extraction in Anand, wisdom tooth removal in Anand';
+      gujaratiKeyword = 'આણંદમાં પેઇનલેસ દાંત કાઢવાની સારવાર';
+    } else if (treatment === 'Smile Makeover') {
+      treatmentKeyword = 'smile makeover clinic in Anand, cosmetic dentistry in Anand';
+      gujaratiKeyword = 'આણંદમાં સ્માઇલ મેકઓવર ક્લિનિક';
+    } else {
+      treatmentKeyword = 'best dentist in Anand, dental clinic in Anand, dental treatment in Anand';
+      gujaratiKeyword = 'આણંદમાં શ્રેષ્ઠ ડેન્ટલ ક્લિનિક';
+    }
 
-if (treatment === 'Root Canal Treatment') {
-  treatmentKeyword = 'best root canal dentist in Anand, painless root canal treatment in Anand';
-  gujaratiKeyword = 'આણંદમાં શ્રેષ્ઠ રૂટ કેનલ ડેન્ટિસ્ટ';
-} else if (treatment === 'Dental Implants') {
-  treatmentKeyword = 'best dental implant clinic in Anand, affordable dental implants in Anand';
-  gujaratiKeyword = 'આણંદમાં શ્રેષ્ઠ ડેન્ટલ ઇમ્પ્લાન્ટ ક્લિનિક';
-} else if (treatment === 'Braces and Aligners') {
-  treatmentKeyword = 'best orthodontist in Anand, invisible aligners in Anand';
-  gujaratiKeyword = 'આણંદમાં શ્રેષ્ઠ ઓર્થોડોન્ટિસ્ટ';
-} else if (treatment === 'Teeth Cleaning') {
-  treatmentKeyword = 'best teeth cleaning in Anand, dental scaling in Anand';
-  gujaratiKeyword = 'આણંદમાં દાંત સફાઈ માટે શ્રેષ્ઠ ક્લિનિક';
-} else if (treatment === 'Tooth Removal') {
-  treatmentKeyword = 'painless tooth extraction in Anand, wisdom tooth removal in Anand';
-  gujaratiKeyword = 'આણંદમાં પેઇનલેસ દાંત કાઢવાની સારવાર';
-} else if (treatment === 'Smile Makeover') {
-  treatmentKeyword = 'smile makeover clinic in Anand, cosmetic dentistry in Anand';
-  gujaratiKeyword = 'આણંદમાં સ્માઇલ મેકઓવર ક્લિનિક';
-} else {
-  treatmentKeyword = 'best dentist in Anand, dental clinic in Anand, dental treatment in Anand';
-  gujaratiKeyword = 'આણંદમાં શ્રેષ્ઠ ડેન્ટલ ક્લિનિક';
-}
+    const extraGujarati =
+      language === 'Gujarati'
+        ? `Also naturally include Gujarati SEO keywords like: ${gujaratiKeyword}`
+        : '';
 
-const extraGujarati =
-  language === 'Gujarati'
-    ? `Also naturally include Gujarati SEO keywords like: ${gujaratiKeyword}`
-    : '';
-
-const prompt = `
+    // ✅ FINAL ADVANCED PROMPT
+    const prompt = `
 Write exactly 3 different patient reviews for Smile Plus Dental Clinic ${promptLanguage}.
 
 Each review must:
@@ -96,7 +83,7 @@ Each review must:
 - Sound completely natural and human
 - Include a short "before condition" (pain, fear, broken tooth, etc.)
 - Clearly mention the treatment: ${treatment || 'dental treatment'}
-- Include SEO keywords: ${treatmentKeyword}
+- Include SEO keywords naturally: ${treatmentKeyword}
 - Mention Dr. Ronak Dewani (expertise, calm nature, friendly behavior)
 - Highlight hygiene, modern equipment, painless experience
 - End positively with satisfaction
@@ -117,7 +104,49 @@ Format strictly like:
 
 3. Review text...
 `;
+
     const openaiResp = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          {
+            role: 'system',
+            content: 'You generate high-quality, realistic dental patient reviews.',
+          },
+          {
+            role: 'user',
+            content: prompt,
+          },
+        ],
+        max_tokens: 600, // 🔥 increased for longer reviews
+        temperature: 0.8,
+      }),
+    });
+
+    const data = await openaiResp.json();
+
+    let raw = data?.choices?.[0]?.message?.content || '';
+
+    // ✅ CLEAN PARSING
+    let reviews = raw
+      .split(/\n\d+\.\s+/)
+      .map(r => r.trim())
+      .filter(r => r.length > 40);
+
+    reviews = reviews.slice(0, 3);
+
+    res.json({ reviews });
+
+  } catch (err) {
+    console.error('❌ Error:', err);
+    res.status(500).json({ error: 'generate_failed' });
+  }
+});    const openaiResp = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         Authorization: \`Bearer \${process.env.OPENAI_API_KEY}\`,
