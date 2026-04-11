@@ -67,7 +67,7 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
       treatmentKeyword = 'smile makeover clinic in Anand, cosmetic dentistry in Anand';
       gujaratiKeyword = 'આણંદમાં સ્માઇલ મેકઓવર ક્લિનિક';
     } else {
-      treatmentKeyword = 'best dentist in Anand, dental clinic in Anand, dental treatment in Anand';
+      treatmentKeyword = 'best dental treatment in Anand, dental clinic in Anand, best dentist in Anand';
       gujaratiKeyword = 'આણંદમાં શ્રેષ્ઠ ડેન્ટલ ક્લિનિક';
     }
 
