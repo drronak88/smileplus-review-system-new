@@ -76,13 +76,12 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
         : '';
 
     // 🧠 FINAL PROMPT
-    const prompt = `
-Write exactly 3 different patient reviews for Smile Plus Dental Clinic ${promptLanguage}.
+    const prompt =  `Write five unique, natural-sounding 50-100 word reviews for Smile Plus Dental Clinic ${promptLanguage}, specifically about ${treatment}. Highlight friendliness, modern facilities, hygiene, staff behaviour and painless experience. Each review must sound genuine and human-like include Dr.Ronak Dewani's behaviour,expertice and experience. Separate reviews with two new lines.`
 
 Each review must:
 - Mix format:
    • 1 short review (50-60 words)
-   • 2 detailed reviews (80-90 words)
+   • 2 detailed reviews (80-100 words)
 - Sound completely natural and human
 - Include a short "before condition" (pain, fear, broken tooth, etc.)
 - Clearly mention the treatment: ${treatment || 'dental treatment'}
@@ -99,13 +98,9 @@ Additional rules:
 - Make all 3 reviews different
 - Add 1–2 emojis in ONLY ONE review
 
-Format strictly like:
-
-1. Review text...
-
-2. Review text...
-
-3. Review text...
+Return exactly 3 reviews separated by two blank lines.
+Do NOT include numbering, bullets, or labels.
+Only return plain review text.
 `;
 
     // 🔗 OpenAI API call
@@ -137,13 +132,15 @@ Format strictly like:
     // 🧹 Clean response parsing
     let raw = data?.choices?.[0]?.message?.content || '';
 
-    let reviews = raw
-      .split(/\n\d+\.\s+/)
-      .map((r) => r.trim())
-      .filter((r) => r.length > 40);
+   let reviews = raw
+  .split(/\n\s*\n/) // split by blank lines
+  .map((r) => r.trim())
+  .filter((r) => r.length > 40);
 
-    reviews = reviews.slice(0, 3);
+// extra safety: remove numbering if AI still adds it
+reviews = reviews.map(r => r.replace(/^\d+\.\s*/, ''));
 
+reviews = reviews.slice(0, 3);
     res.json({ reviews });
 
   } catch (err) {
