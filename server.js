@@ -1,89 +1,56 @@
-// Load environment variables
-require('dotenv').config();
-
 const express = require('express');
-const rateLimit = require('express-rate-limit');
-const path = require('path');
-
-// node-fetch fix for v3+
-const fetch = (...args) =>
-  import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fetch = require('node-fetch');
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
+app.use(express.static('public'));
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Default route
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'qr-landing.html'));
-});
-
-// Trust proxy (Render fix)
-app.set('trust proxy', 1);
-
-// Rate limiter
-const limiter = rateLimit({
-  windowMs: 60 * 60 * 1000,
-  max: 15,
-  message: 'Too many requests, please try again later.',
-});
-app.use('/api/', limiter);
-
-// 🔥 REVIEW GENERATION API
-app.post('/api/generate-multiple-reviews', async (req, res) => {
+app.post('/generate', async (req, res) => {
   try {
-    const { language = 'English', treatment = '' } = req.body;
+    const { treatment, language } = req.body;
 
     // 🌐 Language handling
-   const promptLanguage =
-  language === 'Hindi'
-    ? 'in natural, polite Hindi (हिंदी में, सामान्य बोलचाल की भाषा में)'
-    : language === 'Gujarati'
-    ? 'in natural, polite Gujarati (ગુજરાતીમાં, સરળ અને સ્વાભાવિક ભાષામાં)'
-    : 'in natural, conversational English';
-    // 🎯 SEO + Treatment keywords
-    let treatmentKeyword = '';
-    let gujaratiKeyword = '';
+    const promptLanguage =
+      language === 'Hindi'
+        ? 'in natural, polite Hindi'
+        : language === 'Gujarati'
+        ? 'in natural, polite Gujarati'
+        : 'in English';
 
-    if (treatment === 'Root Canal Treatment') {
-      treatmentKeyword = 'best root canal dentist in Anand, painless root canal treatment in Anand';
-      gujaratiKeyword = 'આણંદમાં શ્રેષ્ઠ રૂટ કેનલ ડેન્ટિસ્ટ';
-    } else if (treatment === 'Dental Implants') {
-      treatmentKeyword = 'best dental implant clinic in Anand, affordable dental implants in Anand';
-      gujaratiKeyword = 'આણંદમાં શ્રેષ્ઠ ડેન્ટલ ઇમ્પ્લાન્ટ ક્લિનિક';
-    } else if (treatment === 'Braces and Aligners') {
-      treatmentKeyword = 'best orthodontist in Anand, invisible aligners in Anand';
-      gujaratiKeyword = 'આણંદમાં શ્રેષ્ઠ ઓર્થોડોન્ટિસ્ટ';
-    } else if (treatment === 'Teeth Cleaning') {
-      treatmentKeyword = 'best teeth cleaning in Anand, dental scaling in Anand';
-      gujaratiKeyword = 'આણંદમાં દાંત સફાઈ માટે શ્રેષ્ઠ ક્લિનિક';
-    } else if (treatment === 'Tooth Removal') {
-      treatmentKeyword = 'painless tooth extraction in Anand, wisdom tooth removal in Anand';
-      gujaratiKeyword = 'આણંદમાં પેઇનલેસ દાંત કાઢવાની સારવાર';
-    } else if (treatment === 'Smile Makeover') {
-      treatmentKeyword = 'smile makeover clinic in Anand, cosmetic dentistry in Anand';
-      gujaratiKeyword = 'આણંદમાં સ્માઇલ મેકઓવર ક્લિનિક';
-    } else {
-      treatmentKeyword = 'best dental treatment in Anand, dental clinic in Anand, best dentist in Anand';
-      gujaratiKeyword = 'આણંદમાં શ્રેષ્ઠ ડેન્ટલ ક્લિનિક';
+    // 🔑 SEO Keywords
+    let treatmentKeyword =
+      'best dental clinic in Anand, painless dental treatment, smile designing, dental implant, tooth colored filling';
+
+    if (treatment && treatment.toLowerCase().includes('root')) {
+      treatmentKeyword += ', best root canal dentist in Anand, painless root canal';
     }
 
-    const extraGujarati =
-      language === 'Gujarati'
-        ? `Also naturally include Gujarati SEO keywords like: ${gujaratiKeyword}`
-        : '';
+    if (treatment && treatment.toLowerCase().includes('implant')) {
+      treatmentKeyword += ', best dental implant clinic in Anand';
+    }
 
-// 🧠 FINAL PROMPT 
-messages: [
-  {
-    role: 'system',
-    content: 'You are a friendly AI that writes natural, human-like patient reviews for Smile Plus Dental Clinic. Reviews must sound genuine, conversational, and like real Google reviews. Focus on patient comfort, hygiene, and modern dental care. Never include patient names or fake doctor names.'
-  },
-  {
-    role: 'user',
-    content: `Write exactly 3 unique, natural-sounding patient reviews for Smile Plus Dental Clinic ${promptLanguage}.
+    // 🟡 Gujarati SEO
+    let extraGujarati = '';
+    if (language === 'Gujarati') {
+      extraGujarati = `
+Also include Gujarati SEO keywords naturally like:
+“આનંદમાં શ્રેષ્ઠ ડેન્ટલ ક્લિનિક”, “પેઇનલેસ રૂટ કેનાલ”, “ડેન્ટલ ઇમ્પ્લાન્ટ”, “સ્માઇલ ડિઝાઇનિંગ”
+`;
+    }
+
+    // 🧠 FINAL PROMPT
+    const promptPayload = {
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You are a friendly AI that writes natural, human-like patient reviews for Smile Plus Dental Clinic. Reviews must sound genuine, conversational, and like real Google reviews. Focus on comfort, hygiene, and modern dental care. Never include patient names.'
+        },
+        {
+          role: 'user',
+          content: `Write exactly 3 unique, natural-sounding patient reviews for Smile Plus Dental Clinic ${promptLanguage}.
 
 Each review must:
 - Mix format:
@@ -108,55 +75,39 @@ Additional rules:
 
 Return exactly 3 reviews separated by two blank lines.
 Only return plain review text.`
-  }
-],
+        }
+      ],
+      max_tokens: 700,
+      temperature: 0.8
+    };
 
-    // 🔗 OpenAI API call
+    console.log("🧠 Sending request to OpenAI...");
+
     const openaiResp = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'system',
-            content: 'You generate high-quality, realistic dental patient reviews.',
-          },
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
-        max_tokens: 600,
-        temperature: 0.8,
-      }),
+      body: JSON.stringify(promptPayload)
     });
 
     const data = await openaiResp.json();
 
-    // 🧹 Clean response parsing
-    let raw = data?.choices?.[0]?.message?.content || '';
+    let reviewsText = data.choices[0].message.content;
 
-   let reviews = raw
-  .split(/\n\s*\n/) // split by blank lines
-  .map((r) => r.trim())
-  .filter((r) => r.length > 40);
+    // 🧼 REMOVE numbering if any (extra safety)
+    reviewsText = reviewsText.replace(/^\d+\.\s*/gm, '');
 
-// extra safety: remove numbering if AI still adds it
-reviews = reviews.map(r => r.replace(/^\d+\.\s*/, ''));
+    res.json({ reviews: reviewsText });
 
-reviews = reviews.slice(0, 3);
-    res.json({ reviews });
-
-  } catch (err) {
-    console.error('❌ Error:', err);
-    res.status(500).json({ error: 'generate_failed' });
+  } catch (error) {
+    console.error('❌ Error:', error);
+    res.status(500).json({ error: 'Something went wrong' });
   }
 });
 
-// 🚀 Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
