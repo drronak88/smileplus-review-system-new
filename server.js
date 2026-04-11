@@ -37,13 +37,12 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
     const { language = 'English', treatment = '' } = req.body;
 
     // 🌐 Language handling
-    const promptLanguage =
-      language === 'Hindi'
-        ? 'in Hindi (हिंदी में)'
-        : language === 'Gujarati'
-        ? 'in Gujarati (ગુજરાતીમાં)'
-        : 'in English';
-
+   const promptLanguage =
+  language === 'Hindi'
+    ? 'in natural, polite Hindi (हिंदी में, सामान्य बोलचाल की भाषा में)'
+    : language === 'Gujarati'
+    ? 'in natural, polite Gujarati (ગુજરાતીમાં, સરળ અને સ્વાભાવિક ભાષામાં)'
+    : 'in natural, conversational English';
     // 🎯 SEO + Treatment keywords
     let treatmentKeyword = '';
     let gujaratiKeyword = '';
@@ -117,7 +116,7 @@ Format strictly like:
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4o-mini',
         messages: [
           {
             role: 'system',
