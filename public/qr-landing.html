@@ -1,123 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smile Plus Dental Clinic</title>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Smile Plus Dental Clinic and Implant Center</title>
 
 <style>
 body {
+  font-family: 'Poppins', sans-serif;
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5') no-repeat center center/cover;
-  color: white;
+  padding: 0;
+  text-align: center;
+  background: url('dental-background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
 }
 
 .overlay {
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   min-height: 100vh;
-  padding: 20px;
-  text-align: center;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.logo {
-  font-size: 28px;
-  font-weight: bold;
-  color: #f4a742;
-  margin-bottom: 10px;
-}
-
-.title-box {
-  background: rgba(255,255,255,0.85);
-  color: #00695c;
-  padding: 15px;
-  border-radius: 12px;
-  display: inline-block;
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.subtitle {
-  margin-bottom: 25px;
-  font-size: 15px;
-}
-
-.btn {
+img.logo {
   display: block;
-  width: 260px;
-  margin: 10px auto;
-  padding: 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
+  margin: 0 auto 25px auto;
+  max-width: 320px;
 }
 
-.google { background: #4285F4; }
-.facebook { background: #1877F2; }
+.clinic-name {
+  background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+}
 
-.follow {
+.clinic-name h1 {
+  color: #004d40;
+  margin: 0;
+}
+
+.subtext {
+  font-size: 1.1rem;
+}
+
+.google-link {
+  display: inline-block;
+  background: #4285F4;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 15px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.google-link:hover {
+  background: #3367d6;
+}
+
+/* SOCIAL BUTTONS */
+.social-links {
   margin-top: 20px;
-  font-weight: bold;
 }
 
-.social {
-  margin-top: 10px;
-}
-
-.social a {
-  margin: 0 10px;
-  padding: 8px 14px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.2);
-  color: white;
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px;
+  padding: 10px 18px;
+  border-radius: 6px;
   text-decoration: none;
+  color: white;
 }
 
-.controls {
-  margin-top: 25px;
+.facebook-btn {
+  background: #1877F2;
 }
 
-select {
-  padding: 8px;
+.instagram-btn {
+  background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
+}
+
+.social-links img {
+  width: 20px;
+  height: 20px;
+}
+
+select, button {
+  margin: 10px;
+  padding: 10px;
   border-radius: 6px;
   border: none;
-  margin: 5px;
 }
 
-.generate-btn {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 6px;
+button {
   background: #00bcd4;
   color: white;
-  font-weight: bold;
   cursor: pointer;
 }
 
-.reviews {
-  margin-top: 20px;
-}
-
-.review-box {
-  background: rgba(255,255,255,0.9);
-  color: #333;
-  padding: 10px;
-  border-radius: 8px;
-  margin: 8px auto;
-  width: 85%;
-  max-width: 400px;
-  font-size: 14px;
-}
-
-.footer {
-  margin-top: 30px;
+.review {
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
   padding: 15px;
-  background: rgba(0,0,0,0.5);
-  font-size: 14px;
+  margin: 15px auto;
+  width: 90%;
+  max-width: 600px;
+  text-align: left;
+}
+
+.review button {
+  background: #4caf50;
+  padding: 8px 12px;
+  margin-top: 10px;
+}
+
+.copied {
+  margin-left: 10px;
+  font-size: 0.9rem;
+  color: #a5d6a7;
+}
+
+footer {
+  margin-top: 30px;
+  font-size: 1rem;
 }
 </style>
 </head>
@@ -126,37 +137,42 @@ select {
 
 <div class="overlay">
 
-<div class="logo">Smile Plus Dental Clinic</div>
+<div>
+<img src="logo.png" class="logo">
 
-<div class="title-box">
-Smile Plus Dental Clinic and Implant Center
+<div class="clinic-name">
+<h1>Smile Plus Dental Clinic and Implant Center</h1>
 </div>
 
-<div class="subtitle">
-Thank you for visiting our clinic! We would highly appreciate if you share your valuable feedback with us.
+<p class="subtext">
+Thank you for visiting our clinic! We would highly appreciate if you share your valuable feedback with us..
+</p>
+
+<a class="google-link" href="https://g.page/r/CZ_2i4drLOxCEAE/review" target="_blank">
+Leave a Google Review
+</a>
+
+<!-- SOCIAL LINKS -->
+<div class="social-links">
+
+<a href="https://www.facebook.com/smileplus.anand" target="_blank" class="facebook-btn">
+<img src="https://cdn-icons-png.flaticon.com/512/733/733547.png">
+Facebook Page
+</a>
+
+<a href="https://www.facebook.com/smileplus.anand/reviews" target="_blank" class="facebook-btn">
+<img src="https://cdn-icons-png.flaticon.com/512/733/733547.png">
+Facebook Reviews
+</a>
+
+<a href="https://www.instagram.com/smileplusdentalclinic.anand" target="_blank" class="instagram-btn">
+<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
+Instagram
+</a>
+
 </div>
 
-<a href="https://g.page/r/CZ_2i4drLOxCEAE/review" class="btn google" target="_blank">
-⭐ Leave a Google Review
-</a>
-
-<a href="https://www.facebook.com/smileplus.anand/reviews" class="btn facebook" target="_blank">
-👍 Leave a Facebook Review
-</a>
-
-<div class="follow">Follow us on</div>
-
-<div class="social">
-<a href="https://www.facebook.com/smileplus.anand" target="_blank">
-<i class="fab fa-facebook"></i> Facebook
-</a>
-
-<a href="https://www.instagram.com/smileplusdentalclinic.anand" target="_blank">
-<i class="fab fa-instagram"></i> Instagram
-</a>
-</div>
-
-<div class="controls">
+<div style="margin-top: 20px;">
 <select id="language">
 <option>English</option>
 <option>Hindi</option>
@@ -168,47 +184,79 @@ Thank you for visiting our clinic! We would highly appreciate if you share your 
 <option>Root Canal Treatment</option>
 <option>Braces and Aligners</option>
 <option>Smile Makeover</option>
-<option>Dental Treatment</option>
+<option>General Dentistry</option>
 <option>Teeth Cleaning</option>
 <option>Tooth Removal</option>
 <option>Wisdom Tooth Surgery</option>
 </select>
 
-<button class="generate-btn" onclick="generateReviews()">Generate Reviews</button>
+<button id="generateBtn">Generate Reviews</button>
 </div>
 
-<div class="reviews" id="reviews"></div>
+<div id="reviewsContainer"></div>
 
-<div class="footer">
-<b>Timings:</b> Mon to Sat – 9:00 AM to 7:30 PM<br>
-Sunday by Appointment Only<br><br>
-
-<b>Address:</b> 1st Floor, Raheman Plaza, Beside Shabina Shopping Center,  
-Bhalej Road, Anand, Gujarat – 388001
 </div>
 
+<<footer>
+<p><strong>Timings:</strong> Mon to Sat — 9:00 AM to 7:30 PM<br>Sunday by Appointment Only</p>
+
+<p><strong>Address:</strong><br>
+1st Floor, Raheman Plaza,<br>
+Beside Shabina Shopping Center,<br>
+Bhalej Road, Anand, Gujarat - 388001
+</p>
+</footer>
 </div>
 
 <script>
-async function generateReviews() {
-  const language = document.getElementById("language").value;
-  const treatment = document.getElementById("treatment").value;
+const generateBtn = document.getElementById('generateBtn');
+const reviewsContainer = document.getElementById('reviewsContainer');
 
-  const res = await fetch('/api/generate-multiple-reviews', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ language, treatment })
-  });
+generateBtn.addEventListener('click', async () => {
+  reviewsContainer.innerHTML = 'Generating...';
 
-  const data = await res.json();
-  const container = document.getElementById("reviews");
-  container.innerHTML = "";
+  const language = document.getElementById('language').value;
+  const treatment = document.getElementById('treatment').value;
 
-  data.reviews.forEach(r => {
-    const div = document.createElement("div");
-    div.className = "review-box";
-    div.innerText = r;
-    container.appendChild(div);
+  try {
+    const res = await fetch('/api/generate-multiple-reviews', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ language, treatment })
+    });
+
+    const data = await res.json();
+    reviewsContainer.innerHTML = '';
+
+    data.reviews.forEach((review, idx) => {
+      const div = document.createElement('div');
+      div.classList.add('review');
+
+      div.innerHTML = `
+        <p>${review}</p>
+        <button onclick="copyReview(${idx})">Copy & Review on Google</button>
+        <span id="copied-${idx}" class="copied"></span>
+      `;
+
+      reviewsContainer.appendChild(div);
+    });
+
+  } catch (err) {
+    reviewsContainer.innerHTML = 'Error generating reviews';
+  }
+});
+
+/* UPDATED FUNCTION WITH AUTO REDIRECT */
+function copyReview(idx) {
+  const text = document.querySelectorAll('.review p')[idx].innerText;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const span = document.getElementById(`copied-${idx}`);
+    span.innerText = 'Copied! Opening Google Review...';
+
+    setTimeout(() => {
+      window.open('https://g.page/r/CZ_2i4drLOxCEAE/review', '_blank');
+    }, 1500); // smooth delay
   });
 }
 </script>
