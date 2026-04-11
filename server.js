@@ -76,8 +76,10 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
         : '';
 
     // 🧠 FINAL PROMPT
-    const prompt =  `Write five unique, natural-sounding 50-100 word reviews for Smile Plus Dental Clinic ${promptLanguage}, specifically about ${treatment}. Highlight friendliness, modern facilities, hygiene, staff behaviour and painless experience. Each review must sound genuine and human-like include Dr.Ronak Dewani's behaviour,expertice and experience. Separate reviews with two new lines.`
-
+{
+  role: 'user',
+  content: `Write three unique, natural-sounding 50-80 word reviews for Smile Plus Dental Clinic ${promptLanguage}, specifically about ${treatment}. Highlight friendliness, modern facilities, hygiene, and painless experience. Each review must sound genuine and human-like and include Dr. Ronak Dewani's behaviour, expertise, and experience. Separate reviews with two new lines.`
+}
 Each review must:
 - Mix format:
    • 1 short review (50-60 words)
