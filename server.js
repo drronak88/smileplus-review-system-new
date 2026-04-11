@@ -4,7 +4,10 @@ require('dotenv').config();
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
+// node-fetch fix for v3+
+const fetch = (...args) =>
+  import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const app = express();
 app.use(express.json());
@@ -30,9 +33,10 @@ app.use('/api/', limiter);
 
 // 🔥 REVIEW GENERATION API
 app.post('/api/generate-multiple-reviews', async (req, res) => {
-  const { language = 'English', treatment = '' } = req.body;
-
   try {
+    const { language = 'English', treatment = '' } = req.body;
+
+    // 🌐 Language handling
     const promptLanguage =
       language === 'Hindi'
         ? 'in Hindi (हिंदी में)'
@@ -40,7 +44,7 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
         ? 'in Gujarati (ગુજરાતીમાં)'
         : 'in English';
 
-    // ✅ CLEAN KEYWORD LOGIC (ONLY ONCE)
+    // 🎯 SEO + Treatment keywords
     let treatmentKeyword = '';
     let gujaratiKeyword = '';
 
@@ -72,7 +76,7 @@ app.post('/api/generate-multiple-reviews', async (req, res) => {
         ? `Also naturally include Gujarati SEO keywords like: ${gujaratiKeyword}`
         : '';
 
-    // ✅ FINAL ADVANCED PROMPT
+    // 🧠 FINAL PROMPT
     const prompt = `
 Write exactly 3 different patient reviews for Smile Plus Dental Clinic ${promptLanguage}.
 
@@ -105,6 +109,7 @@ Format strictly like:
 3. Review text...
 `;
 
+    // 🔗 OpenAI API call
     const openaiResp = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -123,63 +128,21 @@ Format strictly like:
             content: prompt,
           },
         ],
-        max_tokens: 600, // 🔥 increased for longer reviews
+        max_tokens: 600,
         temperature: 0.8,
       }),
     });
 
     const data = await openaiResp.json();
 
+    // 🧹 Clean response parsing
     let raw = data?.choices?.[0]?.message?.content || '';
 
-    // ✅ CLEAN PARSING
     let reviews = raw
       .split(/\n\d+\.\s+/)
-      .map(r => r.trim())
-      .filter(r => r.length > 40);
+      .map((r) => r.trim())
+      .filter((r) => r.length > 40);
 
-    reviews = reviews.slice(0, 3);
-
-    res.json({ reviews });
-
-  } catch (err) {
-    console.error('❌ Error:', err);
-    res.status(500).json({ error: 'generate_failed' });
-  }
-});    const openaiResp = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        Authorization: \`Bearer \${process.env.OPENAI_API_KEY}\`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: [
-          {
-            role: 'system',
-            content: 'You generate high-quality, realistic dental patient reviews.',
-          },
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
-        max_tokens: 400,
-        temperature: 0.7,
-      }),
-    });
-
-    const data = await openaiResp.json();
-
-    let raw = data?.choices?.[0]?.message?.content || '';
-
-    // 🔥 CLEAN PARSING (very important)
-    let reviews = raw
-      .split(/\n\d+\.\s+/) // split 1. 2. 3.
-      .map(r => r.trim())
-      .filter(r => r.length > 30);
-
-    // Ensure exactly 3
     reviews = reviews.slice(0, 3);
 
     res.json({ reviews });
@@ -190,6 +153,6 @@ Format strictly like:
   }
 });
 
-// Start server
+// 🚀 Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
