@@ -197,7 +197,7 @@ Instagram
 
 </div>
 
-<<footer>
+<footer>
 <p><strong>Timings:</strong> Mon to Sat — 9:00 AM to 7:30 PM<br>Sunday by Appointment Only</p>
 
 <p><strong>Address:</strong><br>
@@ -219,11 +219,13 @@ generateBtn.addEventListener('click', async () => {
   const treatment = document.getElementById('treatment').value;
 
   try {
-    const res = await fetch('/api/generate-multiple-reviews', {
+    const res = await fetch('/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ language, treatment })
-    });
+      body: JSON.stringify({
+  treatment: document.getElementById('treatment').value,
+  language: document.getElementById('language').value
+});
 
     const data = await res.json();
     reviewsContainer.innerHTML = '';
@@ -259,7 +261,64 @@ function copyReview(idx) {
     }, 1500); // smooth delay
   });
 }
-</script>
+<script>
+const generateBtn = document.getElementById('generateBtn');
+const reviewsContainer = document.getElementById('reviewsContainer');
 
+generateBtn.addEventListener('click', async () => {
+  reviewsContainer.innerHTML = 'Generating...';
+
+  const language = document.getElementById('language').value;
+  const treatment = document.getElementById('treatment').value;
+
+  try {
+    const res = await fetch('/generate', {  // ✅ FIXED API
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ language, treatment })
+    });
+
+    const data = await res.json();
+
+    // ✅ Convert string → array (split by blank lines)
+    const reviews = data.reviews
+      .split(/\n\s*\n/)
+      .map(r => r.trim())
+      .filter(r => r.length > 30);
+
+    reviewsContainer.innerHTML = '';
+
+    reviews.forEach((review, idx) => {
+      const div = document.createElement('div');
+      div.classList.add('review');
+
+      div.innerHTML = `
+        <p>${review}</p>
+        <button onclick="copyReview(${idx})">Copy & Review on Google</button>
+        <span id="copied-${idx}" class="copied"></span>
+      `;
+
+      reviewsContainer.appendChild(div);
+    });
+
+  } catch (err) {
+    console.error(err);
+    reviewsContainer.innerHTML = 'Error generating reviews';
+  }
+});
+
+function copyReview(idx) {
+  const text = document.querySelectorAll('.review p')[idx].innerText;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const span = document.getElementById(`copied-${idx}`);
+    span.innerText = 'Copied! Opening Google Review...';
+
+    setTimeout(() => {
+      window.open('https://g.page/r/CZ_2i4drLOxCEAE/review', '_blank');
+    }, 1200);
+  });
+}
+</script>
 </body>
 </html>
