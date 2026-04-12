@@ -42,33 +42,52 @@ Also include Gujarati SEO keywords like:
 
 // 🧠 FINAL PROMPT
 const prompt = `
-Write exactly 3 different patient reviews for Smile Plus Dental Clinic ${promptLanguage}.
+Write exactly 3 high-quality patient reviews for Smile Plus Dental Clinic ${promptLanguage}.
+
+🎯 Objective:
+These reviews should feel 100% real and emotionally convincing so that other patients trust the clinic and feel confident visiting.
 
 Each review must:
-- Mix format:
-   • 1 short review (50-60 words)
-   • 2 detailed reviews (80-100 words)
-- Sound completely natural and human
-- Include a short "before condition" (pain, fear, broken tooth, etc.)
+
+🟢 Structure:
+- 1 short review (60–80 words)
+- 2 detailed reviews (80–100 words)
+
+🟢 Content:
+- Start with a relatable "before condition" (pain, fear, hesitation, broken tooth, bad past experience)
 - Clearly mention the treatment: ${treatment || 'dental treatment'}
-- Include SEO keywords naturally: ${treatmentKeyword}
-- Mention Dr. Ronak Dewani (expertise, calm nature, friendly behavior)
-- Highlight hygiene, modern equipment, painless experience
-- End with satisfaction
+- Describe the experience step-by-step (consultation → treatment → result)
+- Highlight:
+  • Dr. Ronak Dewani’s calm nature, expertise, and friendly behavior  
+  • Cleanliness and hygiene  
+  • Modern equipment and painless treatment  
+  • Staff behaviour and friendliness
+  • affordabable treatment charges 
+
+
+- End with strong satisfaction and recommendation
+
+🟢 SEO Optimization:
+- Naturally include keywords:
+  ${treatmentKeyword}
+- Make them flow naturally (NOT forced)
 
 ${extraGujarati}
 
-Additional rules:
+🟢 Human Psychology:
+- Make each review feel like written by a different person
+- Use slightly different tone in each (one emotional, one practical, one simple)
+- Add 1–2 emojis in ONLY ONE review
+
+🟢 Rules:
 - No patient names
 - No repetition
-- Make all 3 reviews different
-- Add 1–2 emojis in ONLY ONE review
-- Do NOT use numbering or bullets
+- No numbering or bullet points
+- No robotic language
+- Keep it natural and believable
 
-Return exactly 3 reviews separated by two blank lines.
-`;
-
-    // ✅ USING NATIVE FETCH (NO node-fetch)
+Return ONLY 3 reviews separated by two blank lines.
+`;    // ✅ USING NATIVE FETCH (NO node-fetch)
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -76,11 +95,13 @@ Return exactly 3 reviews separated by two blank lines.
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: prompt }],
-        max_tokens: 300
-      })
-    });
+  model: 'gpt-4o-mini',
+  messages: [
+    { role: 'user', content: prompt }
+  ],
+  max_tokens: 700,
+  temperature: 0.85
+});
 
     const data = await response.json();
     console.log("👉 OpenAI response:", data);
