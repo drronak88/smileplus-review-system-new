@@ -10,6 +10,11 @@ app.post('/generate', async (req, res) => {
   try {
     const { treatment, language } = req.body;
 
+    if (!process.env.OPENAI_API_KEY) {
+      console.error("❌ Missing OpenAI API Key");
+      return res.status(500).json({ error: "API key not configured" });
+    }
+
     // 🌐 Language handling
     const promptLanguage =
       language === 'Hindi'
@@ -46,35 +51,23 @@ Also include Gujarati SEO keywords naturally like:
         {
           role: 'system',
           content:
-            'You are a friendly AI that writes natural, human-like patient reviews for Smile Plus Dental Clinic. Reviews must sound genuine, conversational, and like real Google reviews. Focus on comfort, hygiene, and modern dental care. Never include patient names.'
+            'You are a friendly AI that writes natural, human-like patient reviews for Smile Plus Dental Clinic. Reviews must sound genuine, conversational, and like real Google reviews.'
         },
         {
           role: 'user',
-          content: `Write exactly 3 unique, natural-sounding patient reviews for Smile Plus Dental Clinic ${promptLanguage}.
+          content: `Write exactly 3 unique patient reviews for Smile Plus Dental Clinic ${promptLanguage}.
 
 Each review must:
-- Mix format:
-   • 1 short review (50-60 words)
-   • 2 detailed reviews (80-100 words)
-- Sound completely natural and human
-- Include a short "before condition" (pain, fear, broken tooth, sensitivity, etc.)
-- Clearly mention the treatment: ${treatment || 'dental treatment'}
-- Include SEO keywords naturally: ${treatmentKeyword}
-- Mention Dr. Ronak Dewani's expertise, calm nature, and friendly behaviour
-- Highlight hygiene, modern equipment, and painless experience
-- End with a positive, satisfied tone
+- Mention treatment: ${treatment || 'dental treatment'}
+- Include keywords: ${treatmentKeyword}
+- Mention Dr. Ronak Dewani
+- Highlight hygiene and painless treatment
+- Sound natural and human
 
 ${extraGujarati}
 
-Additional rules:
-- No patient names
-- No repetition
-- Make all 3 reviews clearly different
-- Add 1–2 emojis in ONLY ONE review
-- Do NOT use numbering, bullets, or labels
-
 Return exactly 3 reviews separated by two blank lines.
-Only return plain review text.`
+Only return plain text.`
         }
       ],
       max_tokens: 700,
@@ -94,16 +87,37 @@ Only return plain review text.`
 
     const data = await openaiResp.json();
 
-    let reviewsText = data.choices[0].message.content;
+    console.log("📦 OpenAI Response:", JSON.stringify(data, null, 2));
 
-    // 🧼 REMOVE numbering if any (extra safety)
-    reviewsText = reviewsText.replace(/^\d+\.\s*/gm, '');
+    // ❌ HANDLE API ERROR PROPERLY
+    if (!data || data.error) {
+      console.error("❌ OpenAI API Error:", data.error);
+      return res.status(500).json({
+        error: data.error?.message || "OpenAI API failed"
+      });
+    }
+
+    if (!data.choices || !data.choices[0]) {
+      console.error("❌ Invalid OpenAI response structure");
+      return res.status(500).json({ error: "Invalid response from OpenAI" });
+    }
+
+    let reviewsText = data.choices[0].message.content || "";
+
+    // 🧼 Clean formatting
+    reviewsText = reviewsText
+      .replace(/^\d+\.\s*/gm, '')
+      .trim();
+
+    if (!reviewsText) {
+      return res.status(500).json({ error: "Empty response from AI" });
+    }
 
     res.json({ reviews: reviewsText });
 
   } catch (error) {
-    console.error('❌ Error:', error);
-    res.status(500).json({ error: 'Something went wrong' });
+    console.error('❌ Server Error:', error);
+    res.status(500).json({ error: 'Server crashed' });
   }
 });
 

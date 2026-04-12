@@ -145,7 +145,7 @@ footer {
 </div>
 
 <p class="subtext">
-Thank you for visiting our clinic! We would highly appreciate if you share your valuable feedback with us..
+Thank you for visiting our clinic! We would highly appreciate if you share your valuable feedback with us.
 </p>
 
 <a class="google-link" href="https://g.page/r/CZ_2i4drLOxCEAE/review" target="_blank">
@@ -206,13 +206,14 @@ Beside Shabina Shopping Center,<br>
 Bhalej Road, Anand, Gujarat - 388001
 </p>
 </footer>
+
 </div>
 
 <script>
 const generateBtn = document.getElementById('generateBtn');
 const reviewsContainer = document.getElementById('reviewsContainer');
 
-generateBtn.addEventListener('click', async () => {
+generateBtn.addEventListener('click', async function () {
   reviewsContainer.innerHTML = 'Generating...';
 
   const language = document.getElementById('language').value;
@@ -222,81 +223,34 @@ generateBtn.addEventListener('click', async () => {
     const res = await fetch('/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-  treatment: document.getElementById('treatment').value,
-  language: document.getElementById('language').value
-});
-
-    const data = await res.json();
-    reviewsContainer.innerHTML = '';
-
-    data.reviews.forEach((review, idx) => {
-      const div = document.createElement('div');
-      div.classList.add('review');
-
-      div.innerHTML = `
-        <p>${review}</p>
-        <button onclick="copyReview(${idx})">Copy & Review on Google</button>
-        <span id="copied-${idx}" class="copied"></span>
-      `;
-
-      reviewsContainer.appendChild(div);
+      body: JSON.stringify({ language: language, treatment: treatment })
     });
 
-  } catch (err) {
-    reviewsContainer.innerHTML = 'Error generating reviews';
-  }
-});
-
-/* UPDATED FUNCTION WITH AUTO REDIRECT */
-function copyReview(idx) {
-  const text = document.querySelectorAll('.review p')[idx].innerText;
-
-  navigator.clipboard.writeText(text).then(() => {
-    const span = document.getElementById(`copied-${idx}`);
-    span.innerText = 'Copied! Opening Google Review...';
-
-    setTimeout(() => {
-      window.open('https://g.page/r/CZ_2i4drLOxCEAE/review', '_blank');
-    }, 1500); // smooth delay
-  });
-}
-<script>
-const generateBtn = document.getElementById('generateBtn');
-const reviewsContainer = document.getElementById('reviewsContainer');
-
-generateBtn.addEventListener('click', async () => {
-  reviewsContainer.innerHTML = 'Generating...';
-
-  const language = document.getElementById('language').value;
-  const treatment = document.getElementById('treatment').value;
-
-  try {
-    const res = await fetch('/generate', {  // ✅ FIXED API
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ language, treatment })
-    });
+    console.log("Status:", res.status);
 
     const data = await res.json();
+    console.log("Data:", data);
 
-    // ✅ Convert string → array (split by blank lines)
+    if (!data || !data.reviews) {
+      reviewsContainer.innerHTML = "Failed to generate reviews";
+      return;
+    }
+
     const reviews = data.reviews
       .split(/\n\s*\n/)
-      .map(r => r.trim())
-      .filter(r => r.length > 30);
+      .map(function (r) { return r.trim(); })
+      .filter(function (r) { return r.length > 20; });
 
     reviewsContainer.innerHTML = '';
 
-    reviews.forEach((review, idx) => {
+    reviews.forEach(function (review, idx) {
       const div = document.createElement('div');
       div.classList.add('review');
 
-      div.innerHTML = `
-        <p>${review}</p>
-        <button onclick="copyReview(${idx})">Copy & Review on Google</button>
-        <span id="copied-${idx}" class="copied"></span>
-      `;
+      div.innerHTML =
+        '<p>' + review + '</p>' +
+        '<button onclick="copyReview(' + idx + ')">Copy & Review on Google</button>' +
+        '<span id="copied-' + idx + '" class="copied"></span>';
 
       reviewsContainer.appendChild(div);
     });
@@ -310,11 +264,11 @@ generateBtn.addEventListener('click', async () => {
 function copyReview(idx) {
   const text = document.querySelectorAll('.review p')[idx].innerText;
 
-  navigator.clipboard.writeText(text).then(() => {
-    const span = document.getElementById(`copied-${idx}`);
+  navigator.clipboard.writeText(text).then(function () {
+    const span = document.getElementById('copied-' + idx);
     span.innerText = 'Copied! Opening Google Review...';
 
-    setTimeout(() => {
+    setTimeout(function () {
       window.open('https://g.page/r/CZ_2i4drLOxCEAE/review', '_blank');
     }, 1200);
   });
