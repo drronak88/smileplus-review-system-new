@@ -12,12 +12,61 @@ app.post('/generate', async (req, res) => {
 
     const { treatment, language } = req.body;
 
-    const prompt = `Write 3 simple, natural patient reviews for a dental clinic.
-Treatment: ${treatment}
-Language: ${language}
-Each review should be 50-70 words.
-Do NOT use numbering.
-Separate each review with a blank line.`;
+// 🌐 Language
+const promptLanguage =
+  language === 'Hindi'
+    ? 'in natural, polite Hindi'
+    : language === 'Gujarati'
+    ? 'in natural, natural Gujarati'
+    : 'in English';
+
+// 🔑 SEO Keywords
+let treatmentKeyword = 'best dentist in Anand, dental clinic in Anand';
+
+if (treatment === 'Root Canal Treatment') {
+  treatmentKeyword += ', best root canal dentist in Anand, painless root canal';
+} else if (treatment === 'Dental Implants') {
+  treatmentKeyword += ', best dental implant clinic in Anand';
+} else if (treatment === 'Teeth Cleaning') {
+  treatmentKeyword += ', dental cleaning in Anand, scaling treatment';
+}
+
+// 🟡 Gujarati SEO
+let extraGujarati = '';
+if (language === 'Gujarati') {
+  extraGujarati = `
+Also include Gujarati SEO keywords like:
+“આણંદમાં શ્રેષ્ઠ ડેન્ટલ ક્લિનિક”, “પેઇનલેસ રૂટ કેનાલ”, “ડેન્ટલ ઇમ્પ્લાન્ટ”
+`;
+}
+
+// 🧠 FINAL PROMPT
+const prompt = `
+Write exactly 3 different patient reviews for Smile Plus Dental Clinic ${promptLanguage}.
+
+Each review must:
+- Mix format:
+   • 1 short review (50-60 words)
+   • 2 detailed reviews (80-100 words)
+- Sound completely natural and human
+- Include a short "before condition" (pain, fear, broken tooth, etc.)
+- Clearly mention the treatment: ${treatment || 'dental treatment'}
+- Include SEO keywords naturally: ${treatmentKeyword}
+- Mention Dr. Ronak Dewani (expertise, calm nature, friendly behavior)
+- Highlight hygiene, modern equipment, painless experience
+- End with satisfaction
+
+${extraGujarati}
+
+Additional rules:
+- No patient names
+- No repetition
+- Make all 3 reviews different
+- Add 1–2 emojis in ONLY ONE review
+- Do NOT use numbering or bullets
+
+Return exactly 3 reviews separated by two blank lines.
+`;
 
     // ✅ USING NATIVE FETCH (NO node-fetch)
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
