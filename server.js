@@ -1,6 +1,5 @@
 const express = require('express');
-const fetch = require('node-fetch');
-require('dotenv').config();
+const response = await fetch('https://api.openai.com/v1/chat/completions', {require('dotenv').config();
 
 const app = express();
 app.use(express.json());
