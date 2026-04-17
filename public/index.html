@@ -247,10 +247,12 @@ generateBtn.addEventListener('click', async function () {
       const div = document.createElement('div');
       div.classList.add('review');
 
-      div.innerHTML =
-        '<p>' + review + '</p>' +
-        '<button onclick="copyReview(' + idx + ')">Copy & Review on Google</button>' +
-        '<span id="copied-' + idx + '" class="copied"></span>';
+      div.innerHTML = `
+  <p>${review}</p>
+  <button onclick="copyReview(${idx})">Copy & Review on Google</button>
+  <button onclick="shareWhatsApp(${idx})">Share on WhatsApp</button>
+  <span id="copied-${idx}" class="copied"></span>
+`;
 
       reviewsContainer.appendChild(div);
     });
@@ -270,9 +272,21 @@ function copyReview(idx) {
 
     setTimeout(function () {
       window.open('https://g.page/r/CZ_2i4drLOxCEAE/review', '_blank');
-    }, 1200);
+    }, 500);
   });
 }
+function shareWhatsApp(idx) {
+  const text = document.querySelectorAll('.review p')[idx].innerText;
+
+  const message = encodeURIComponent(
+    text + "\n\nShare your review here:\nhttps://g.page/r/CZ_2i4drLOxCEAE/review"
+  );
+
+  const url = "https://wa.me/?text=" + message;
+
+  window.open(url, "_blank");
+}
+
 </script>
 </body>
 </html>
