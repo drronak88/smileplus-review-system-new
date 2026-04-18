@@ -279,8 +279,10 @@ function shareWhatsApp(idx) {
   const text = document.querySelectorAll('.review p')[idx].innerText;
 
   const message = encodeURIComponent(
-    text + "\n\nShare your review here:\nhttps://g.page/r/CZ_2i4drLOxCEAE/review"
-  );
+  text + 
+  "\n\nI had a great experience at Smile Plus Dental Clinic.\n" +
+  "You can share your review here:\nhttps://g.page/r/CZ_2i4drLOxCEAE/review"
+);
 
   const url = "https://wa.me/?text=" + message;
 
