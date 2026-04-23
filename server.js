@@ -50,7 +50,7 @@ These reviews should feel 100% real and emotionally convincing so that other pat
 Each review must:
 
 🟢 Structure:
-- 1 short review (60–80 words)
+- 1 short review (50–60 words)
 - 2 detailed reviews (80–100 words)
 
 🟢 Content:
@@ -85,6 +85,16 @@ ${extraGujarati}
 - No numbering or bullet points
 - No robotic language
 - Keep it natural and believable
+Variation rules:
+- Each review must have a completely different structure and flow
+- Start each review differently (one from experience, one from doctor, one from result)
+- Use different tone (emotional, practical, casual)
+- Vary sentence length and writing style
+- Do not repeat phrases across reviews
+- Include only 1–2 SEO keywords per review naturally
+- Avoid overly polished or robotic language
+- Keep slight human imperfections in writing
+- Do not follow the same storytelling pattern in all reviews
 
 Return ONLY 3 reviews separated by two blank lines.
 `;    // ✅ USING NATIVE FETCH (NO node-fetch)
