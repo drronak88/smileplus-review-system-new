@@ -45,7 +45,7 @@ const prompt = `
 Write exactly 3 high-quality patient reviews for Smile Plus Dental Clinic ${promptLanguage}.
 
 🎯 Objective:
-These reviews should feel 100% real and emotionally convincing so that other patients trust the clinic and feel confident visiting.
+These reviews should feel 100% real written by a different real patient with a unique personality and writing style and emotionally convincing so that other patients trust the clinic and feel confident visiting.
 
 Each review must:
 
@@ -53,19 +53,36 @@ Each review must:
 - 1 short review (50–60 words)
 - 2 detailed reviews (80–100 words)
 
+🧠 Core Instructions:
+
+- Each review must feel independent and NOT follow a fixed pattern
+- Do NOT use the same structure across reviews
+- Avoid repeating phrases, sentence styles, or flow
+
 🟢 Content:
-- Start with a relatable "before condition" (pain, fear, hesitation, broken tooth, bad past experience)
+- Start in one review with a relatable "before condition" (pain, fear, hesitation)
 - Clearly mention the treatment: ${treatment || 'dental treatment'}
-- Describe the experience step-by-step (consultation → treatment → result)
+- Describe the experience in one review step-by-step (consultation → treatment → result)
 - Highlight:
-  • Dr. Ronak Dewani’s calm nature, expertise, and friendly behavior  
+  • Dr. Ronak Dewani’s calm nature, expertise, and friendly behavior (not forced) 
   • Cleanliness and hygiene  
   • Modern equipment and painless treatment  
   • Staff behaviour and friendliness
   • affordabable treatment charges 
 
-
 - End with strong satisfaction and recommendation
+
+🟢 Human Behavior Simulation:
+
+Each review must behave differently:
+
+- One can be short and simple (like a quick Google review)
+- One can be slightly detailed and descriptive
+- One can be casual, slightly imperfect, or conversational
+- One review may start mid-experience (not always from the beginning)
+- One may focus more on doctor
+- One may focus more on result or feeling
+
 
 🟢 SEO Optimization:
 - Naturally include keywords:
@@ -78,6 +95,13 @@ ${extraGujarati}
 - Make each review feel like written by a different person
 - Use slightly different tone in each (one emotional, one practical, one simple)
 - Add 1–2 emojis in ONLY ONE review
+
+🟢 Writing Style Variation:
+
+- Mix sentence lengths (short + long)
+- Use natural spoken tone in at least one review
+- Slight grammar looseness allowed in one review (like real users)
+- Avoid overly polished or “perfect” language
 
 🟢 Rules:
 - No patient names
