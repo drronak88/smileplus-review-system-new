@@ -79,7 +79,6 @@ Each review must behave differently:
 - One can be short and simple (like a quick Google review)
 - One can be slightly detailed and descriptive
 - One can be casual, slightly imperfect, or conversational
-- One review may start mid-experience (not always from the beginning)
 - One may focus more on doctor
 - One may focus more on result or feeling
 
